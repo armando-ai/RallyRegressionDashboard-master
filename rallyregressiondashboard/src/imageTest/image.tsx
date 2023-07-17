@@ -27,6 +27,14 @@ const ImageComponent: React.FC<ImageComponentProps> = () => {
     return () => URL.revokeObjectURL(url);
   }, []);
 
+  //within attachments inside of an result object if count > 0 grab the ref 
+  /**
+  *https://rally1.rallydev.com/slm/webservice/v2.0/TestCaseResult/700451833223/Attachments
+  *"_ref": "https://rally1.rallydev.com/slm/webservice/v2.0/attachment/700451833265",
+  * take that ref and remove "/webservices/v2.0" 
+  * 
+  */
+
   return (
     <div>
       {imageUrl ? <img src={"https://rally1.rallydev.com/slm/attachment/700451833265"} alt="LissetImage2" /> : null}
