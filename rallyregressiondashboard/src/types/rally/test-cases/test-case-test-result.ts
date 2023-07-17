@@ -1,0 +1,30 @@
+import { Result } from "../results/result";
+import { ResultCount } from "../results/result-count";
+
+export type TestCaseTestResult = {
+  _rallyAPIMajor: string | null;
+  _rallyAPIMinor: string | null;
+  _ref: string | null;
+  _refObjectUUID: string | null;
+  _objectVersion: string | null;
+  CreationDate: string | null;
+  _CreatedAt: string | null;
+  ObjectID: number | null;
+  ObjectUUID: string | null;
+  VersionId: string | null;
+  Subscription: Result | null;
+  Workspace: Result | null;
+  Attachments: ResultCount | null;
+  Build: string | null;
+  Date: string | null;
+  Duration: any|  null;
+  Notes: string | null;
+  Project: Result | null;
+  TestCase: Result | null;
+  TestSet: any | null;
+  Tester: Result | null;
+  Verdict: string | null;
+  WorkProduct: Result | null;
+  c_ALMID: any | null;
+  _type: string | null;
+};
