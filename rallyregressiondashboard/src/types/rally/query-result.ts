@@ -8,5 +8,5 @@ export type QueryResult = {
   TotalResultCount: number;
   StartIndex: number;
   PageSize: number;
-  Results: Result[];
+  Results: Array<Result>;
 };
