@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 import "./App.css";
+import "./imageTest/image";
 import RallyApi from "./rest-service/rally-api";
+import ImageComponent from "./imageTest/image";
 
 function App() {
   const [fetchedData, setFetchedData] = useState<boolean>(false);
@@ -28,6 +30,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
+        <ImageComponent />
         <a
           className="App-link"
           href="/pages/DashBoard"
