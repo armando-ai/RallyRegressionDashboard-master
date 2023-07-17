@@ -6,28 +6,29 @@ import Request from "./request";
 
 export class RallyApi {
   public async getTestSetRef(testSetID: string) {
-    const testSetQuery: QueryResult = await Request(
+    const response: any = await Request(
       "http://localhost:3000/testset?query=(FormattedID = " +
       testSetID +
       ")",
       "GET",
       null
-    );
-    console.log(testSetQuery);
-    return testSetQuery;
+    )
+    console.log(response.QueryResult);
+    return await "http://localhost:3000/" + response.QueryResult.Results[0]._ref.replace("https://rally1.rallydev.com/slm/webservice/v2.0/", "");
   }
-  public async getTestSet(testSetRef: string) {
-    const testSet: TestSet = await Request(testSetRef, "GET", null);
-    return testSet;
+  public async getTestCaseRef(testSetRef: string) {
+    const testSet: any = await Request(testSetRef, "GET", null);
+    return "http://localhost:3000/" + testSet.TestSet.TestCases._ref.replace("https://rally1.rallydev.com/slm/webservice/v2.0/", "");
   }
 
   public async getTestCases(testCaseRef: string) {
-    const testCaseQuery: QueryTestCaseResults = await Request(
+    const testCaseQuery: any = await Request(
       testCaseRef,
       "GET",
       null
     );
-    return testCaseQuery.Results;
+
+    return testCaseQuery.QueryResult.Results;
   }
 }
 export default RallyApi;
