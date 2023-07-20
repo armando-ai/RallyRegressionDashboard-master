@@ -1,4 +1,5 @@
 import { Result } from "./results/result";
+import { TestCaseTestResult } from "./test-cases/test-case-test-result";
 
 export type QueryResult = {
   _rallyAPIMajor: string;
@@ -8,5 +9,5 @@ export type QueryResult = {
   TotalResultCount: number;
   StartIndex: number;
   PageSize: number;
-  Results: Array<Result>;
+  Results: Array<Result> | Array<TestCaseTestResult> | any;
 };

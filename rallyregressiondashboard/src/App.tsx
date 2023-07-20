@@ -7,12 +7,19 @@ import { TestCase } from "./types/rally/test-cases/test-case";
 import { TestCaseDashBoard } from "./types/dashboard/test-case-dashboard";
 import LoadingAnimation from "./components/LoadingAnimation";
 import DashBoard from "./pages/DashBoard";
+import LastResult from "./components/dashboard/last-resullt";
 
 function App() {
   const [testCases, setTestCases] = useState<Array<TestCaseDashBoard>>([]);
   const [fetchedData, setFetchedData] = useState<boolean>(false);
   const [FilterVerdict, setFilterVerdict] = useState("");
+  const [resultData, setresultData] = useState<any>({});
+
   const fetchData = async () => {
+    window.open(
+      "https://rally1.rallydev.com/#/196310419468d/dashboard",
+      "_blank"
+    );
     let testCaseRef: string;
 
     if (
@@ -29,7 +36,7 @@ function App() {
     if (testSetRef) {
       testCaseRef = await api.getTestCaseRef(testSetRef);
       const testCases = await api.getTestCases(testCaseRef);
-      const parsedTestCases = parseTestCase(testCases);
+      const parsedTestCases = await parseTestCase(testCases);
       setTestCases(parsedTestCases);
       setFetchedData(true);
     } else {
@@ -48,7 +55,7 @@ function App() {
     setTestCases(filtered);
   };
   return (
-    <div>
+    <div className="hidden">
       {fetchedData === false ? (
         <LoadingAnimation /> // Show the loading animation
       ) : (
@@ -59,7 +66,15 @@ function App() {
             onChange={(e) => {
               FilterTestCase(e.target.value);
             }}></input>
-          <DashBoard testCases={testCases} />
+          <DashBoard testCases={testCases} setResult={setresultData} />
+
+          {resultData.build !== undefined ? (
+            <LastResult result={resultData} />
+          ) : (
+            <div className="full">
+              <br></br>
+            </div>
+          )}
         </div>
       )}
     </div>

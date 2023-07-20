@@ -3,9 +3,9 @@ import RowItem from "../components/dashboard/row-item";
 import { TestCaseDashBoard } from "../types/dashboard/test-case-dashboard";
 const DashBoard = (props: any) => {
   const testCases = props.testCases;
-  const renderListOfUserNames = () => {
+  const renderListOfTestCases = () => {
     return testCases.map((testCase: TestCaseDashBoard) => (
-      <RowItem testCase={testCase}></RowItem>
+      <RowItem setResult={props.setResult} testCase={testCase}></RowItem>
     ));
   };
   return (
@@ -15,11 +15,15 @@ const DashBoard = (props: any) => {
         <h1>NAME</h1>
         <h1>OWNER</h1>
         <h1>LAST VERDICT</h1>
-        <h1>VERDICT CHECK</h1>
+
         <h1>PROJECT</h1>
         <h1>METHOD</h1>
+        <h1>VERDICT CHECK</h1>
       </div>
-      {renderListOfUserNames()}
+    <div className="row-items">
+    {renderListOfTestCases()}
+    </div>
+    
     </div>
   );
 };
