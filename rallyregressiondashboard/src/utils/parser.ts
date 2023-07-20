@@ -3,7 +3,7 @@ import { TestCaseDashBoard } from "../types/dashboard/test-case-dashboard";
 import { TestCase } from "../types/rally/test-cases/test-case";
 import { TestCaseTestResult } from "../types/rally/test-cases/test-case-test-result";
 
-export async function parseTestCase(testCases: Array<TestCase>) {
+export async function parseTestCase(testCases: Array<TestCase>, imbalance?: number) {
   const parsedTestCases = new Array<TestCaseDashBoard>();
   for (let index = 0; index < testCases.length; index++) {
     const testCase = testCases[index];
