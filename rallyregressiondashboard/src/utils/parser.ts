@@ -48,7 +48,7 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
     parsedTestCase.lastResultData = lastResult;
     let pass = 0;
     let fail = 0;
-
+    let imbalanceNumber = imbalance ? imbalance : 3;
     for (let index = 0; index < 10; index++) {
       const element = results[index];
       const lastResult = element.Verdict;
@@ -75,7 +75,7 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
       } else if (
         results[0].Verdict?.includes("Fail") &&
         results[1].Verdict?.includes("Fail") &&
-        pass > 3
+        pass > imbalanceNumber
       ) {
         parsedTestCase.verdictCheck = "Regression";
       } else if (isFlaky(results)) {

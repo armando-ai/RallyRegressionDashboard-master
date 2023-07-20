@@ -21,6 +21,7 @@ function App() {
   const [VerdictCheck, setVerdictCheck] = useState("");
   const [resultData, setresultData] = useState<any>({});
   const [Imbalance, setImbalance] = useState("");
+  const [testCasesImbalance, setImbalanceTestCases] = useState([]);
   const fetchData = async () => {
     window.open(
       "https://rally1.rallydev.com/#/196310419468d/dashboard",
@@ -42,6 +43,7 @@ function App() {
     if (testSetRef) {
       testCaseRef = await api.getTestCaseRef(testSetRef);
       const testCases = await api.getTestCases(testCaseRef);
+      setImbalanceTestCases(testCases);
       const parsedTestCases = await parseTestCase(testCases);
       setTestCases(parsedTestCases);
       setOriginalTestCases(parsedTestCases);
@@ -55,6 +57,13 @@ function App() {
   }
   const rawTestCases = originaltestCases;
 
+  const filterImbalance = async (Imbalance: string) =>{
+    console.log("Imbalance:" + Imbalance);
+    setImbalance(Imbalance);
+    const parsedTestCases = await parseTestCase(testCasesImbalance, +Imbalance);
+    setTestCases(parsedTestCases);
+
+  }
   const filterVerdict = (testCase: string) => {
     const tempArray = rawTestCases;
     setFilterVerdict(testCase);
@@ -120,7 +129,7 @@ function App() {
                 setVerdictCheck={filterVerdictCheck}
                 VerdictCheck={VerdictCheck}
                 Imbalance={Imbalance}
-                setImbalance={setImbalance}></Filter>
+                setImbalance={filterImbalance}></Filter>
             </div>
           </div>
 
