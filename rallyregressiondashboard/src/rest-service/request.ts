@@ -8,7 +8,7 @@ export const Request = async <T>(
     WorkspaceId: "90129908344",
     "Content-Type": "application/json",
   };
-  console.log(url)
+
   const response = await fetch(url, {
     method: requestType.toUpperCase(),
     headers: header,

@@ -30,5 +30,23 @@ export class RallyApi {
 
     return testCaseQuery.QueryResult.Results;
   }
+  public async getPreviousTestCaseResults(testCaseResultsRef: string) {
+    const testCaseQueryResults: any = await Request(testCaseResultsRef, "GET", null)
+    return testCaseQueryResults.QueryResult.Results;
+  }
+
+  public async getImageRef(attachmentRef: any) {
+
+    const imageQueryResults: any = await Request(attachmentRef, "GET", null);
+    let url: string = "";
+    if (imageQueryResults.QueryResult.Results) {
+
+      url = imageQueryResults.QueryResult.Results[0]._ref.replace("webservice/v2.0/", "");
+      return url;
+    }
+    return null;
+
+  }
+
 }
 export default RallyApi;
