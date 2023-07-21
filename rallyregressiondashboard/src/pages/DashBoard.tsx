@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import RowItem from "../components/dashboard/row-item";
 import { TestCaseDashBoard } from "../types/dashboard/test-case-dashboard";
+import LoadingAnimation from "../components/LoadingAnimation";
 const DashBoard = (props: any) => {
   const testCases = props.testCases;
   const renderListOfTestCases = () => {
@@ -20,10 +21,13 @@ const DashBoard = (props: any) => {
         <h1>METHOD</h1>
         <h1>VERDICT CHECK</h1>
       </div>
-    <div className="row-items">
-    {renderListOfTestCases()}
-    </div>
-    
+      <div className="row-items">
+        {props.fetchedUpdateData ? (
+          <LoadingAnimation result={true} />
+        ) : (
+          renderListOfTestCases()
+        )}
+      </div>
     </div>
   );
 };

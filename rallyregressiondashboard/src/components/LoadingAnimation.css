@@ -12,8 +12,12 @@
     /* Animation properties */
     margin-inline: auto;
     position: relative;
-    top: 25vh;
+    top: 40%;
     /* Center the loader */
+}
+
+.top {
+    top: 3vh;
 }
 
 @keyframes spin {

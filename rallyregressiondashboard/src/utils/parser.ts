@@ -70,18 +70,18 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
         parsedTestCase.verdictCheck = "Pass";
       } else if (fail === 10) {
         parsedTestCase.verdictCheck = "Fail";
-      } else if (results[0].Verdict?.includes("Fail") && pass > 5) {
-        parsedTestCase.verdictCheck = "Intermittent Failure";
       } else if (
         results[0].Verdict?.includes("Fail") &&
         results[1].Verdict?.includes("Fail") &&
         pass > imbalanceNumber
       ) {
         parsedTestCase.verdictCheck = "Regression";
+      } else if (results[0].Verdict?.includes("Fail") && pass > 5) {
+        parsedTestCase.verdictCheck = "Intermittent Failure";
       } else if (isFlaky(results)) {
         parsedTestCase.verdictCheck = "Flaky";
       } else if (
-        results[0].Verdict?.includes("Passed") &&
+        results[0].Verdict?.includes("Pass") &&
         results[1].Verdict?.includes("Fail")
       ) {
         parsedTestCase.verdictCheck = "Fixed";
@@ -107,13 +107,13 @@ function isFlaky(results: any) {
   for (let i = 1; i < results.length - 1; i++) {
     if (results[i].Verdict && results[i - 1].Verdict) {
       if (
-        results[i].Verdict.includes("Failed") &&
-        results[i - 1].Verdict.includes("Passed")
+        results[i].Verdict.includes("Fail") &&
+        results[i - 1].Verdict.includes("Pass")
       ) {
         flips += 1;
       } else if (
-        results[i].Verdict.includes("Passed") &&
-        results[i - 1].Verdict.includes("Failed")
+        results[i].Verdict.includes("Pass") &&
+        results[i - 1].Verdict.includes("Fail")
       ) {
         flips += 1;
       }

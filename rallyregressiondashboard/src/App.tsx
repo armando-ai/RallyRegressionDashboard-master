@@ -11,6 +11,7 @@ import LastResult from "./components/dashboard/last-resullt";
 import Filter from "./components/filter/filter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faChartPie } from "@fortawesome/free-solid-svg-icons";
+import PieChart from "./components/piechart/PieChart";
 function App() {
   const [testCases, setTestCases] = useState<Array<TestCaseDashBoard>>([]);
   const [originaltestCases, setOriginalTestCases] = useState<
@@ -22,11 +23,8 @@ function App() {
   const [resultData, setresultData] = useState<any>({});
   const [Imbalance, setImbalance] = useState("");
   const [testCasesImbalance, setImbalanceTestCases] = useState([]);
+  const [fetchedUpdateData, setFetchedUpdateData] = useState<boolean>(false);
   const fetchData = async () => {
-    window.open(
-      "https://rally1.rallydev.com/#/196310419468d/dashboard",
-      "_blank"
-    );
     let testCaseRef: string;
 
     if (
@@ -37,6 +35,10 @@ function App() {
       window.location.href =
         window.location.href.toString() +
         "?apiKey=_QBmqvSMdTDGt8hJNq2LK3t1KLhWby0o6pyUJSgPMqw";
+      window.open(
+        "https://rally1.rallydev.com/#/196310419468d/dashboard",
+        "_blank"
+      );
     }
     const api = new RallyApi();
     const testSetRef = await api.getTestSetRef("TS51048");
@@ -57,13 +59,13 @@ function App() {
   }
   const rawTestCases = originaltestCases;
 
-  const filterImbalance = async (Imbalance: string) =>{
-    console.log("Imbalance:" + Imbalance);
+  const filterImbalance = async (Imbalance: string) => {
     setImbalance(Imbalance);
+    setFetchedUpdateData(true);
     const parsedTestCases = await parseTestCase(testCasesImbalance, +Imbalance);
     setTestCases(parsedTestCases);
-
-  }
+    setFetchedUpdateData(false);
+  };
   const filterVerdict = (testCase: string) => {
     const tempArray = rawTestCases;
     setFilterVerdict(testCase);
@@ -92,7 +94,7 @@ function App() {
       ) : (
         // Render your data or main content here
         <div>
-          <DashBoard testCases={testCases} setResult={setresultData} />
+          <DashBoard testCases={testCases} fetchedUpdateData={fetchedUpdateData} setResult={setresultData} />
           <div className="topLeftArea">
             <div className="icon-container">
               <div>
@@ -117,7 +119,7 @@ function App() {
               className={`${
                 FilterType === "pie" ? "" : "move-left"
               } contentTopLeft`}>
-              <h1>Pie Chart</h1>
+              <PieChart />
             </div>
             <div
               className={`${
