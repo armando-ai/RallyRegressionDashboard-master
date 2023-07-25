@@ -11,7 +11,7 @@ import LastResult from "./components/dashboard/last-resullt";
 import Filter from "./components/filter/filter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faChartPie } from "@fortawesome/free-solid-svg-icons";
-import PieChart from "./components/piechart/PieChart";
+import PieChart from "./components/piechart/CustomPieChart";
 function App() {
   const [testCases, setTestCases] = useState<Array<TestCaseDashBoard>>([]);
   const [originaltestCases, setOriginalTestCases] = useState<
@@ -47,6 +47,7 @@ function App() {
       const testCases = await api.getTestCases(testCaseRef);
       setImbalanceTestCases(testCases);
       const parsedTestCases = await parseTestCase(testCases);
+      console.log(parsedTestCases);
       setTestCases(parsedTestCases);
       setOriginalTestCases(parsedTestCases);
       setFetchedData(true);
@@ -94,7 +95,11 @@ function App() {
       ) : (
         // Render your data or main content here
         <div>
-          <DashBoard testCases={testCases} fetchedUpdateData={fetchedUpdateData} setResult={setresultData} />
+          <DashBoard
+            testCases={testCases}
+            fetchedUpdateData={fetchedUpdateData}
+            setResult={setresultData}
+          />
           <div className="topLeftArea">
             <div className="icon-container">
               <div>

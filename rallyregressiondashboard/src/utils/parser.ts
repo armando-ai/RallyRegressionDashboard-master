@@ -28,6 +28,8 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
     const api = new RallyApi();
     const results: Array<TestCaseTestResult> =
       await api.getPreviousTestCaseResults(url);
+
+
     const tempResult = results[0];
     const { Build, Date, Verdict, Notes, Attachments } = tempResult;
     //hit attachments ref then get the Results[0]
@@ -49,8 +51,10 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
     let pass = 0;
     let fail = 0;
     let imbalanceNumber = imbalance ? imbalance : 3;
-    for (let index = 0; index < 10; index++) {
+    for (let index = 0; index < results.length; index++) {
       const element = results[index];
+
+
       const lastResult = element.Verdict;
 
       if (lastResult?.includes("Pass")) {
@@ -66,9 +70,9 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
     ) {
       parsedTestCase.verdictCheck = "Fail";
     } else {
-      if (pass === 10) {
+      if (pass === 20) {
         parsedTestCase.verdictCheck = "Pass";
-      } else if (fail === 10) {
+      } else if (fail === 20) {
         parsedTestCase.verdictCheck = "Fail";
       } else if (
         results[0].Verdict?.includes("Fail") &&
@@ -86,6 +90,7 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
       ) {
         parsedTestCase.verdictCheck = "Fixed";
       } else {
+
         if (results[0].Verdict?.includes("Pass") && pass >= fail) {
           parsedTestCase.verdictCheck = "Pass";
         } else if (
@@ -94,6 +99,34 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
         ) {
           parsedTestCase.verdictCheck = "Fail";
         }
+      }
+
+
+    }
+    if (parsedTestCase.verdictCheck === null) {
+     
+      let pass = 0, fail = 0;
+      for (let index = 0; index < 5; index++) {
+        const e = results[index];
+
+        if (e.Verdict?.includes("Pass")) {
+          pass++;
+        } else {
+          fail++;
+        }
+      }
+
+
+
+
+
+      if (pass > fail) {
+        parsedTestCase.verdictCheck = "Pass";
+      } else if (
+
+        pass < fail
+      ) {
+        parsedTestCase.verdictCheck = "Fail";
       }
     }
 

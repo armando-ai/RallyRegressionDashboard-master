@@ -13,7 +13,7 @@ export class RallyApi {
       "GET",
       null
     )
-    console.log(response.QueryResult);
+
     return await "http://localhost:3000/" + response.QueryResult.Results[0]._ref.replace("https://rally1.rallydev.com/slm/webservice/v2.0/", "");
   }
   public async getTestCaseRef(testSetRef: string) {
