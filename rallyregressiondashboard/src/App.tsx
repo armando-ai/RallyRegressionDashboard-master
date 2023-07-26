@@ -12,6 +12,7 @@ import Filter from "./components/filter/filter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faChartPie } from "@fortawesome/free-solid-svg-icons";
 import PieChart from "./components/piechart/CustomPieChart";
+import VCheck from "./components/piechart/VCheckPie";
 function App() {
   const [testCases, setTestCases] = useState<Array<TestCaseDashBoard>>([]);
   const [originaltestCases, setOriginalTestCases] = useState<
@@ -87,7 +88,8 @@ function App() {
       setTestCases(temp);
     }
   };
-  const [FilterType, setFilterType] = useState("filters");
+  const [FilterType, setFilterType] = useState("filter");
+  const [PieType, setPieType] = useState("check");
   return (
     <div className="hidden">
       {fetchedData === false ? (
@@ -106,7 +108,8 @@ function App() {
                 <FontAwesomeIcon
                   icon={faFilter}
                   onClick={() => {
-                    setFilterType("filters");
+                    setFilterType("filter");
+                    console.log(FilterType)
                   }}
                   className="filter-icon"
                 />
@@ -115,21 +118,48 @@ function App() {
               <FontAwesomeIcon
                 onClick={() => {
                   setFilterType("pie");
+                  console.log(FilterType)
                 }}
                 icon={faChartPie}
                 className="pie-chart-icon"
               />
             </div>
-            <div
-              className={`${
-                FilterType === "pie" ? "" : "move-left"
-              } contentTopLeft`}>
-              <PieChart />
+            <div className={`${FilterType != "pie" ? "animate__animated animate__backOutLeft" : "animate__animated animate__backInLeft"} contentTopLeft`}>
+              <div className={`${PieType != "check" ? "animate__animated animate__rotateOut not-there" : "animate__animated animate__rotateIn"} contentTopLeft`}>
+                <VCheck
+                setVerdictCheck={filterVerdictCheck}
+                VerdictCheck={VerdictCheck}
+                ></VCheck>
+                </div>
+                <div className={`${PieType != "final" ? "animate__animated animate__rotateOut not-there" : "animate__animated animate__rotateIn"} contentTopLeft`}>
+                <PieChart
+                Verdict={FilterVerdict}
+                setVerdict={filterVerdict}
+                ></PieChart>
+                </div>
+              <div className="icon-container">
+                <div>
+                  <FontAwesomeIcon
+                    icon={faFilter}
+                    onClick={() => {
+                      setPieType("check");
+                      console.log(FilterType)
+                    }}
+                    className="filter-icon"
+                  />
+                </div>
+                <FontAwesomeIcon
+                  onClick={() => {
+                    setPieType("final");
+                    console.log(FilterType)
+                  }}
+                  icon={faChartPie}
+                  className="pie-chart-icon"
+                />
+              </div>
             </div>
             <div
-              className={`${
-                FilterType === "filters" ? "" : "move-left"
-              } contentTopLeft`}>
+              className={`${FilterType != "filter" ? "animate__animated animate__backOutLeft" : "animate__animated animate__backInLeft" } contentTopLeft `}>
               <Filter
                 Verdict={FilterVerdict}
                 setVerdict={filterVerdict}
