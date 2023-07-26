@@ -1,9 +1,13 @@
 import React from "react";
 
-const CustomPieChart = (props:any) => {
+const VCheckPie = (props:any) => {
   const data = [
-    { label: "Pass", value: 25, color: "#00ff00" },
-    { label: "Fail", value: 25, color: "#FF0000" },
+    { label: "Pass", value: 25, color: "#1a2033" },
+    { label: "Fail", value: 25, color: "#cfa7d1" },
+    { label: "Fixed", value: 25, color: "#27564f" },
+    { label: "Intermittent Failure", value: 25, color: "#f28d7b" },
+    { label: "Regression", value: 25, color: "#1c5b8e" },
+    { label: "Flaky", value: 25, color: "#511d46" },
   ];
 
   const totalValue = data.reduce((sum, item) => sum + item.value, 0);
@@ -11,7 +15,7 @@ const CustomPieChart = (props:any) => {
 
   const handleClick = (event: any, item: any) => {
     console.log("Clicked:", item.label);
-    props.setVerdict(item.label);
+    props.setVerdictCheck(item.label);
     // Perform any action you need here based on the clicked dataset
   };
 
@@ -48,4 +52,4 @@ const CustomPieChart = (props:any) => {
   );
 };
 
-export default CustomPieChart;
+export default VCheckPie;
