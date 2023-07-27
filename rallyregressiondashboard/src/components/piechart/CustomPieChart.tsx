@@ -35,13 +35,28 @@ const CustomPieChart = (props:any) => {
 
         startAngle += sliceAngle;
 
+        //text for pie slice
+        const textX = 50 + (50 / 2) * Math.cos((Math.PI / 180) * (startAngle + sliceAngle / 2));
+        const textY = 50 + (50 / 2) * Math.sin((Math.PI / 180) * (startAngle + sliceAngle / 2));    
+
         return (
+          <>
           <path
             key={item.label}
             d={pathData}
             fill={item.color}
-            onClick={(event) => handleClick(event, item)}
-          />
+            onClick={(event) => handleClick(event, item)} />
+            <text
+              x={textX}
+              y={textY}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontSize="12px"
+              fill="#000"
+            >
+              {item.label}
+            </text>
+            </>
         );
       })}
     </svg>
