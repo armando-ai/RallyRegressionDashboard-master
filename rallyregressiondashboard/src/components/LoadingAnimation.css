@@ -12,7 +12,8 @@
     /* Animation properties */
     margin-inline: auto;
     position: relative;
-    top: 40%;
+    z-index: 1000;
+    top: 60%;
     /* Center the loader */
 }
 

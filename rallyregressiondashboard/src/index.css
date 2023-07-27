@@ -17,6 +17,15 @@ code {
 .hidden {
   background-color: #000000c3;
   height: 50.3vh;
+
+}
+
+.sec {
+  position: absolute;
+  top: 50.3vh;
+  background-color: #000000c3;
+  height: 50.3vh;
+  width: 100%;
 }
 
 .header {
@@ -170,6 +179,7 @@ code {
   position: absolute;
   left: 2vh;
   top: 2vh;
+  overflow: hidden;
   width: 45vw;
   height: 50.5vh;
   background-color: #000;
@@ -383,7 +393,7 @@ input[type="text"]::placeholder {
 }
 
 .ptag {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   letter-spacing: 1px;
   line-height: 35px;
@@ -447,7 +457,7 @@ input[type="text"]::placeholder {
   /* Maintain aspect ratio while fitting the image */
 }
 
-.contentTopLeft{
+.contentTopLeft {
 
   height: 90%;
   display: flex;
@@ -456,10 +466,31 @@ input[type="text"]::placeholder {
   transition: 0.7s;
   position: absolute;
   width: 100%;
+
   left: 0;
 }
 
-.contentTopLeft .icon-container{
+.pieTypes {
+  position: absolute;
+  bottom: 5vh;
+  left: 4vh;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  color: #f5f5f5;
+  transition: 0.7s;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+}
+
+label:hover {
+  color: #dedede;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.contentTopLeft .icon-container {
 
   height: 0%;
   display: flex;
@@ -468,10 +499,17 @@ input[type="text"]::placeholder {
   transition: 0.7s;
   position: relative;
   width: 100%;
+  opacity: 1;
   left: 0;
 }
 
-.not-there{
-  pointer-events: none;
+.moveLeft {
+  left: -100vw !important;
+  height: 70% !important;
+  width: 90% !important;
+  opacity: 0.5 !important;
 }
 
+.not-there {
+  pointer-events: none;
+}
