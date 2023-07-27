@@ -25,6 +25,7 @@ function App() {
   const [Imbalance, setImbalance] = useState("");
   const [testCasesImbalance, setImbalanceTestCases] = useState([]);
   const [fetchedUpdateData, setFetchedUpdateData] = useState<boolean>(false);
+  const [pieType, setpieType] = useState("secon");
   const fetchData = async () => {
     let testCaseRef: string;
 

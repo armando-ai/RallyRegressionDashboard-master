@@ -6,11 +6,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-y: hidden;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.hidden {
+  background-color: #000000c3;
+  height: 50.3vh;
 }
 
 .header {
@@ -22,10 +28,10 @@ code {
   cursor: pointer;
   position: relative;
   border-bottom: 1px solid #000;
-
+  background-color: #000;
   z-index: 1;
   padding: 6px;
-  background-color: #cccc;
+
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom: 1px solid #000;
@@ -33,13 +39,16 @@ code {
 }
 
 .header h1 {
-  font-weight: 500;
+  font-weight: 300;
   background-color: transparent;
-  font-size: 18px !important;
+  font-size: 15px !important;
+  color: #f5f5f5;
 }
 
 .row-item {
   display: flex;
+  color: #f5f5f5;
+  background-color: #4c4c4c !important;
   font-size: medium;
   align-items: center;
   justify-content: center;
@@ -47,18 +56,27 @@ code {
   background-color: inherit;
   cursor: pointer;
   width: 100%;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #1b1818;
 
 }
 
 .row-item:hover {
-  background-color: #ccc;
-  color: #000;
+  background-color: #5e5e5e !important;
+
   font-weight: 400;
 }
 
 .row-item:last-child {
   border-bottom: none !important;
+}
+
+::-webkit-scrollbar {
+  background-color: #4c4c4c
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #00000096;
+  border-radius: 10px;
 }
 
 .row-item p {
@@ -99,7 +117,7 @@ code {
   width: 8vw;
   position: relative;
   left: 1vw;
-  
+
 }
 
 .row-item p:nth-child(7) {
@@ -107,12 +125,13 @@ code {
 }
 
 .col-item {
-  height: 40vh;
-  justify-content: space-evenly;
+  height: 50vh;
+  justify-content: space-around;
   font-size: medium;
   display: flex;
   flex-direction: column;
-  background-color: #f5f5f5;
+  background-color: #000000c3;
+  ;
   padding: 25px;
 }
 
@@ -129,18 +148,20 @@ code {
   border-top-right-radius: 5px;
   position: relative;
   margin-left: auto;
+
   top: 2vh;
   height: 50vh;
   overflow: hidden;
   margin-right: 1.5%;
   flex-direction: column;
-  box-shadow: 0px 0px 5px 5px #ccc;
+  box-shadow: 0px 0px 5px 5px #1f1a1a81;
 }
 
 .icon-container {
   display: flex;
   justify-content: space-around;
   align-items: center;
+
   width: 100px;
   margin: 20px;
 }
@@ -150,15 +171,18 @@ code {
   left: 2vh;
   top: 2vh;
   width: 45vw;
-  height: 48.7vh;
-
+  height: 50.5vh;
+  background-color: #000;
 }
 
 .filter-icon,
 .pie-chart-icon {
   font-size: 24px;
   cursor: pointer;
+  color: #f5f5f5 !important;
   transition: color 0.2s;
+
+
 }
 
 .filter-icon:hover,
@@ -171,14 +195,15 @@ code {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
-  width: 70%;
 
+  width: 70%;
+  position: relative;
+  top: -5vh;
   padding: 20px;
-  border: 1px solid #ccc;
+
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #f7f7f7;
+  background-color: #4c4c4c;
   font-family: Arial, sans-serif;
 }
 
@@ -194,25 +219,37 @@ code {
 h1 {
   margin-right: 10px;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 100;
+  color: #f5f5f5
 }
 
 select,
 input[type="text"] {
   padding: 8px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  background-color: transparent;
   border-radius: 4px;
+  color: #f5f5f5;
 }
 
 select {
   min-width: 200px;
   margin-left: auto;
+  background-color: #4c4c4c;
 }
 
 input[type="text"] {
   min-width: 250px;
   margin-left: auto;
+  color: #f5f5f5 !important;
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+input[type="text"]::placeholder {
+
+  color: #f5f5f5 !important;
+
 }
 
 .dashboard h1 {
@@ -228,7 +265,7 @@ input[type="text"] {
 .row-items {
   background-color: inherit;
   overflow: auto;
-  height: 82%;
+  height: 80%;
 }
 
 .dashboard h1:nth-child(1) {
@@ -298,9 +335,9 @@ input[type="text"] {
   align-items: center;
   width: 15%;
   height: 5vh;
-  background-color: inherit;
+
   position: relative;
-  top: 4.5vh
+
 }
 
 .result-img h1 {
@@ -310,19 +347,19 @@ input[type="text"] {
 .row-result h1 {
   background-color: inherit;
   font-size: x-large;
-  font-weight: 500;
+  font-weight: 300;
   margin-right: 5%;
 }
 
 .result {
   height: 35%;
   word-wrap: break-word;
-  background-color: inherit;
+
   width: 45vw;
   position: absolute;
-  left: 17%;
-  top: 60.5%;
-
+  left: 12%;
+  top: 55.5%;
+  transform: scale(0.8);
 
 
 
@@ -334,13 +371,14 @@ input[type="text"] {
   font-weight: 400;
   position: relative;
   top: 0.3vh;
+  color: #f5f5f5;
 
 
 }
 
 .result h1 {
   font-size: x-large;
-  font-weight: 500;
+  font-weight: 200;
   margin-right: 1%;
 }
 
@@ -348,14 +386,16 @@ input[type="text"] {
   font-size: 18px;
   font-weight: 400;
   letter-spacing: 1px;
-  transform: scale(0.9);
+  line-height: 35px;
+  color: #f5f5f5;
+  background-color: transparent;
   width: 25vw;
   text-overflow: balance;
 }
 
 .full {
-  background-color: #f5f5f5;
-  height: 46vh;
+  background-color: #000000c3;
+  height: 50vh;
   width: 100%;
   display: flex;
 }
@@ -392,6 +432,8 @@ input[type="text"] {
   font-size: xx-large;
   color: white;
   cursor: pointer;
+  background-color: transparent;
+
 }
 
 /* Styles for the image inside the popup */
