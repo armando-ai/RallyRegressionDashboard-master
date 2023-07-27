@@ -49,6 +49,7 @@
   border-radius: 50%;
   position: relative;
   overflow: hidden;
+  top: -5vh;
   cursor: pointer;
   box-shadow: 0px 0px 5px 5px #ccc;
 }

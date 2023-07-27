@@ -25,7 +25,7 @@ function App() {
   const [Imbalance, setImbalance] = useState("");
   const [testCasesImbalance, setImbalanceTestCases] = useState([]);
   const [fetchedUpdateData, setFetchedUpdateData] = useState<boolean>(false);
-  const [pieType, setpieType] = useState("secon");
+  const [selectedCheckbox, setSelectedCheckbox] = useState("");
   const fetchData = async () => {
     let testCaseRef: string;
 
@@ -94,8 +94,12 @@ function App() {
   return (
     <div className="hidden">
       {fetchedData === false ? (
-        <LoadingAnimation /> // Show the loading animation
+        <>
+          <LoadingAnimation />
+          <div className="sec"></div>
+        </>
       ) : (
+        // Show the loading animation
         // Render your data or main content here
         <div>
           <DashBoard
@@ -110,7 +114,7 @@ function App() {
                   icon={faFilter}
                   onClick={() => {
                     setFilterType("filter");
-                    console.log(FilterType)
+                    console.log(FilterType);
                   }}
                   className="filter-icon"
                 />
@@ -119,48 +123,65 @@ function App() {
               <FontAwesomeIcon
                 onClick={() => {
                   setFilterType("pie");
-                  console.log(FilterType)
+                  console.log(FilterType);
                 }}
                 icon={faChartPie}
                 className="pie-chart-icon"
               />
             </div>
-            <div className={`${FilterType != "pie" ? "animate__animated animate__backOutLeft" : "animate__animated animate__backInLeft"} contentTopLeft`}>
-              <div className={`${PieType != "check" ? "animate__animated animate__rotateOut not-there" : "animate__animated animate__rotateIn"} contentTopLeft`}>
+            <div
+              className={`${
+                FilterType !== "pie"
+                  ? "animate__animated animate__backOutLeft"
+                  : "animate__animated animate__backInLeft"
+              } contentTopLeft`}>
+              <div
+                className={`${
+                  PieType !== "check"
+                    ? "animate__animated animate__rotateOut not-there"
+                    : "animate__animated animate__rotateIn"
+                } contentTopLeft`}>
                 <VCheck
-                setVerdictCheck={filterVerdictCheck}
-                VerdictCheck={VerdictCheck}
-                ></VCheck>
-                </div>
-                <div className={`${PieType != "final" ? "animate__animated animate__rotateOut not-there" : "animate__animated animate__rotateIn"} contentTopLeft`}>
+                  setVerdictCheck={filterVerdictCheck}
+                  VerdictCheck={VerdictCheck}></VCheck>
+              </div>
+              <div
+                className={`${
+                  PieType !== "final"
+                    ? "animate__animated animate__rotateOut not-there"
+                    : "animate__animated animate__rotateIn"
+                } contentTopLeft`}>
                 <PieChart
-                Verdict={FilterVerdict}
-                setVerdict={filterVerdict}
-                ></PieChart>
-                </div>
-              <div className="icon-container">
-                <div>
-                  <FontAwesomeIcon
-                    icon={faFilter}
-                    onClick={() => {
-                      setPieType("check");
-                      console.log(FilterType)
-                    }}
-                    className="filter-icon"
+                  Verdict={FilterVerdict}
+                  setVerdict={filterVerdict}></PieChart>
+              </div>
+              <div className="pieTypes">
+                <label onClick={() => setPieType("check")}>
+                  <input
+                    type="checkbox"
+                    value="option1"
+                    checked={PieType === "check"}
+                    onChange={() => setPieType("check")}
                   />
-                </div>
-                <FontAwesomeIcon
-                  onClick={() => {
-                    setPieType("final");
-                    console.log(FilterType)
-                  }}
-                  icon={faChartPie}
-                  className="pie-chart-icon"
-                />
+                  Verdict Check
+                </label>
+                <label onClick={() => setPieType("final")}>
+                  <input
+                    type="checkbox"
+                    value="option2"
+                    checked={PieType === "final"}
+                    onChange={() => setPieType("final")}
+                  />
+                  Last Verdict
+                </label>
               </div>
             </div>
             <div
-              className={`${FilterType != "filter" ? "animate__animated animate__backOutLeft" : "animate__animated animate__backInLeft" } contentTopLeft `}>
+              className={`${
+                FilterType !== "filter"
+                  ? "animate__animated animate__backOutLeft"
+                  : "animate__animated animate__backInLeft"
+              } contentTopLeft `}>
               <Filter
                 Verdict={FilterVerdict}
                 setVerdict={filterVerdict}

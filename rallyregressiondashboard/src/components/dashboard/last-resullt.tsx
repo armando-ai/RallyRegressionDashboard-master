@@ -7,6 +7,7 @@ const LastResult = (props: any) => {
   const date = Moment(data.date);
   const formattedDate = date.format("MMMM DD, YYYY");
   const [showPopup, setShowPopup] = useState(false);
+  const [showVideoPopup, setShowVideoPopup] = useState(false);
   const notes: string = data.notes;
   const wordsArray = notes.split("<br>");
 
@@ -19,12 +20,26 @@ const LastResult = (props: any) => {
     linesArray.push(line);
   }
 
+  const regex = /<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/g;
+
+// Extracting all matches
+const links = [];
+let match;
+while ((match = regex.exec(data.notes)) !== null) {
+  links.push(match[2]);
+}
+
+
   // Join the lines with line breaks
 
   // Step 2: Function to toggle popup visibility
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
+  const toggleVideoPopup = () => {
+    setShowVideoPopup(!showVideoPopup);
+  };
+  
   return (
     <div className="col-item">
       <div className="row-result">
@@ -52,6 +67,37 @@ const LastResult = (props: any) => {
         ))}
       </div>
 
+      <div className = "Video">
+      
+
+       {
+          links.length === 0 ? (
+            <h1>No video content</h1>
+          ) : (
+          
+            <button id="videoButton" onClick={toggleVideoPopup}>View Video</button>
+          )
+
+       }
+         </div>
+      
+          {showVideoPopup && links.length > 0 && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <span className="close" onClick={toggleVideoPopup}>
+              &times;
+            </span>
+            <iframe
+              width="1400" 
+              height="850" 
+              src={`${links[0]}`}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen 
+            ></iframe>
+          </div>
+        </div>
+      )}
       <div className="result-img">
         {data.attachments === null ? (
           <h1>No image content</h1>
