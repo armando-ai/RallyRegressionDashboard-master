@@ -28,109 +28,109 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
     const api = new RallyApi();
     const results: Array<TestCaseTestResult> =
       await api.getPreviousTestCaseResults(url);
+    if (results.length > 0) {
+      const tempResult = results[0];
 
+      const { Build, Date, Verdict, Notes, Attachments } = tempResult;
+      //hit attachments ref then get the Results[0]
+      let attachmentUrl = null;
+      if (Attachments && Attachments?.Count > 0) {
+        attachmentUrl = await api.getImageRef("http://localhost:3000/" + Attachments?._ref.replaceAll("https://rally1.rallydev.com/slm/webservice/v2.0", ""))
 
-    const tempResult = results[0];
-    const { Build, Date, Verdict, Notes, Attachments } = tempResult;
-    //hit attachments ref then get the Results[0]
-    let attachmentUrl = null;
-    if (Attachments && Attachments?.Count > 0) {
-      attachmentUrl = await api.getImageRef("http://localhost:3000/" + Attachments?._ref.replaceAll("https://rally1.rallydev.com/slm/webservice/v2.0", ""))
-
-    }
-
-    const lastResult = {
-      build: Build,
-      date: Date,
-      verdict: Verdict,
-      notes: Notes,
-      attachments: attachmentUrl
-    }
-
-    parsedTestCase.lastResultData = lastResult;
-    let pass = 0;
-    let fail = 0;
-    let imbalanceNumber = imbalance ? imbalance : 3;
-    for (let index = 0; index < results.length; index++) {
-      const element = results[index];
-
-
-      const lastResult = element.Verdict;
-
-      if (lastResult?.includes("Pass")) {
-        pass++;
       }
-      if (lastResult?.includes("Fail") || lastResult?.includes("Blocked")) {
-        fail++;
+
+      const lastResult = {
+        build: Build,
+        date: Date,
+        verdict: Verdict,
+        notes: Notes,
+        attachments: attachmentUrl
       }
-    }
-    if (
-      results[0].Verdict?.includes("Blocked") &&
-      results[1].Verdict?.includes("Fail")
-    ) {
-      parsedTestCase.verdictCheck = "Fail";
-    } else {
-      if (pass === 20) {
-        parsedTestCase.verdictCheck = "Pass";
-      } else if (fail === 20) {
-        parsedTestCase.verdictCheck = "Fail";
-      } else if (
-        results[0].Verdict?.includes("Fail") &&
-        results[1].Verdict?.includes("Fail") &&
-        pass > imbalanceNumber
-      ) {
-        parsedTestCase.verdictCheck = "Regression";
-      } else if (results[0].Verdict?.includes("Fail") && pass > 5) {
-        parsedTestCase.verdictCheck = "Intermittent Failure";
-      } else if (isFlaky(results)) {
-        parsedTestCase.verdictCheck = "Flaky";
-      } else if (
-        results[0].Verdict?.includes("Pass") &&
+
+      parsedTestCase.lastResultData = lastResult;
+      let pass = 0;
+      let fail = 0;
+      let imbalanceNumber = imbalance ? imbalance : 3;
+      for (let index = 0; index < results.length; index++) {
+        const element = results[index];
+
+
+        const lastResult = element.Verdict;
+
+        if (lastResult?.includes("Pass")) {
+          pass++;
+        }
+        if (lastResult?.includes("Fail") || lastResult?.includes("Blocked")) {
+          fail++;
+        }
+      }
+      if (
+        results[0].Verdict?.includes("Blocked") &&
         results[1].Verdict?.includes("Fail")
       ) {
-        parsedTestCase.verdictCheck = "Fixed";
+        parsedTestCase.verdictCheck = "Fail";
       } else {
+        if (pass === 20) {
+          parsedTestCase.verdictCheck = "Pass";
+        } else if (fail === 20) {
+          parsedTestCase.verdictCheck = "Fail";
+        } else if (
+          results[0].Verdict?.includes("Fail") &&
+          results[1].Verdict?.includes("Fail") &&
+          pass > imbalanceNumber
+        ) {
+          parsedTestCase.verdictCheck = "Regression";
+        } else if (results[0].Verdict?.includes("Fail") && pass > 5) {
+          parsedTestCase.verdictCheck = "Intermittent Failure";
+        } else if (isFlaky(results)) {
+          parsedTestCase.verdictCheck = "Flaky";
+        } else if (
+          results[0].Verdict?.includes("Pass") &&
+          results[1].Verdict?.includes("Fail")
+        ) {
+          parsedTestCase.verdictCheck = "Fixed";
+        } else {
 
-        if (results[0].Verdict?.includes("Pass") && pass >= fail) {
+          if (results[0].Verdict?.includes("Pass") && pass >= fail) {
+            parsedTestCase.verdictCheck = "Pass";
+          } else if (
+            results[0].Verdict?.includes("Fail" || "Blocked") &&
+            pass <= fail
+          ) {
+            parsedTestCase.verdictCheck = "Fail";
+          }
+        }
+
+
+      }
+      //no case found
+      if (parsedTestCase.verdictCheck === null) {
+
+        let pass = 0, fail = 0;
+        for (let index = 0; index < 5; index++) {
+          const e = results[index];
+
+          if (e.Verdict?.includes("Pass")) {
+            pass++;
+          } else {
+            fail++;
+          }
+        }
+
+        if (pass > fail) {
           parsedTestCase.verdictCheck = "Pass";
         } else if (
-          results[0].Verdict?.includes("Fail" || "Blocked") &&
-          pass <= fail
+
+          pass < fail
         ) {
           parsedTestCase.verdictCheck = "Fail";
         }
       }
 
-
-    }
-    if (parsedTestCase.verdictCheck === null) {
-     
-      let pass = 0, fail = 0;
-      for (let index = 0; index < 5; index++) {
-        const e = results[index];
-
-        if (e.Verdict?.includes("Pass")) {
-          pass++;
-        } else {
-          fail++;
-        }
-      }
-
-
-
-
-
-      if (pass > fail) {
-        parsedTestCase.verdictCheck = "Pass";
-      } else if (
-
-        pass < fail
-      ) {
-        parsedTestCase.verdictCheck = "Fail";
-      }
+      parsedTestCases.push(parsedTestCase);
     }
 
-    parsedTestCases.push(parsedTestCase);
+
   }
   return parsedTestCases;
 }

@@ -24,6 +24,7 @@ function App() {
   const [Imbalance, setImbalance] = useState("");
   const [testCasesImbalance, setImbalanceTestCases] = useState([]);
   const [fetchedUpdateData, setFetchedUpdateData] = useState<boolean>(false);
+  const [pieType, setpieType] = useState("secon");
   const fetchData = async () => {
     let testCaseRef: string;
 
@@ -124,6 +125,8 @@ function App() {
               className={`${
                 FilterType === "pie" ? "" : "move-left"
               } contentTopLeft`}>
+                <button onClick={()=>{setpieType("")}}>reg</button>
+                <button>alt</button>
               <PieChart />
             </div>
             <div

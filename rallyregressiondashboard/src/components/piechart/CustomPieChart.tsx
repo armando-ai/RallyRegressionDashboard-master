@@ -1,10 +1,9 @@
 import React from "react";
 
-const CustomPieChart = () => {
+const CustomPieChart = (props:any) => {
   const data = [
-    { label: "Data A", value: 25, color: "#FF6384" },
-    { label: "Data B", value: 25, color: "#36A2EB" },
-    { label: "Data C", value:90, color: "#FFCE56" },
+    { label: "Data A", value: 2, color: "#ccc" },
+    { label: "Data B", value: 4, color: "#dbdbdb" },
   ];
 
   const totalValue = data.reduce((sum, item) => sum + item.value, 0);
