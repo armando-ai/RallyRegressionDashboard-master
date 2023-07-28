@@ -39,6 +39,9 @@ const VCheckPie = (props:any) => {
 
         startAngle += sliceAngle;
 
+        const textX = 50 + (50 / 2) * Math.cos((Math.PI / 180) * (startAngle + sliceAngle / 2));
+        const textY = 50 + (50 / 2) * Math.sin((Math.PI / 180) * (startAngle + sliceAngle / 2));
+
         return (
           <path
             key={item.label}
