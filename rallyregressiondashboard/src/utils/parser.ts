@@ -51,7 +51,7 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
       let pass = 0;
       let fail = 0;
       let imbalanceNumber = imbalance ? imbalance : 3;
-      for (let index = 0; index < results.length; index++) {
+      for (let index = 0; index < (results.length > 10 ? 10 : results.length); index++) {
         const element = results[index];
 
 
@@ -136,8 +136,10 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
 }
 function isFlaky(results: any) {
   let flips = 0;
+  let consistency = 0;
 
-  for (let i = 1; i < results.length - 1; i++) {
+  for (let i = 1; i < (results.length > 10 ? 10 : results.length) - 1; i++) {
+
     if (results[i].Verdict && results[i - 1].Verdict) {
       if (
         results[i].Verdict.includes("Fail") &&
@@ -149,10 +151,19 @@ function isFlaky(results: any) {
         results[i - 1].Verdict.includes("Fail")
       ) {
         flips += 1;
+      } else {
+        consistency++;
+      }
+
+      if (consistency === 3 && i < (results.length > 10 ? 7 : results.length - 3)) {
+        flips = 0;
+        consistency = 0;
       }
     }
   }
-  if (flips >= 2) {
+
+  if (flips > (results.length > 10 ? 2 : results.length * .3)) {
+    console.log(flips)
     return true;
   }
 

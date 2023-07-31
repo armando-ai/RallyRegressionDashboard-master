@@ -43,7 +43,7 @@ function App() {
       );
     }
     const api = new RallyApi();
-    const testSetRef = await api.getTestSetRef("TS51048");
+    const testSetRef = await api.getTestSetRef("TS42962");
     if (testSetRef) {
       testCaseRef = await api.getTestCaseRef(testSetRef);
       const testCases = await api.getTestCases(testCaseRef);
