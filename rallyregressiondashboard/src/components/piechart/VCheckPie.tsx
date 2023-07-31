@@ -1,13 +1,18 @@
 import React from "react";
 
-const VCheckPie = (props:any) => {
+const VCheckPie = (props: any) => {
+
   const data = [
-    { label: "Pass", value: 25, color: "#1a2033" },
-    { label: "Fail", value: 25, color: "#cfa7d1" },
-    { label: "Fixed", value: 25, color: "#27564f" },
-    { label: "Intermittent Failure", value: 25, color: "#f28d7b" },
-    { label: "Regression", value: 25, color: "#1c5b8e" },
-    { label: "Flaky", value: 25, color: "#511d46" },
+    { label: "Pass", value: props.data.pass, color: "#1a2033" },
+    { label: "Fail", value: props.data.fail, color: "#cfa7d1" },
+    { label: "Fixed", value: props.data.fixed, color: "#27564f" },
+    {
+      label: "Intermittent Failure",
+      value: props.data.intermittentFailure,
+      color: "#f28d7b",
+    },
+    { label: "Regression", value: props.data.regressions, color: "#1c5b8e" },
+    { label: "Flaky", value: props.data.flaky, color: "#511d46" },
   ];
 
   const totalValue = data.reduce((sum, item) => sum + item.value, 0);

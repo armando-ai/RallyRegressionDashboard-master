@@ -49,10 +49,12 @@ function App() {
       const testCases = await api.getTestCases(testCaseRef);
       setImbalanceTestCases(testCases);
       const parsedTestCases = await parseTestCase(testCases);
-      console.log(parsedTestCases);
+      const { pie, pieCheck } = await createPieData(parsedTestCases);
       setTestCases(parsedTestCases);
       setOriginalTestCases(parsedTestCases);
       setFetchedData(true);
+      setPieData(pie);
+      setPieData2(pieCheck);
     } else {
       console.log("bad test set");
     }
@@ -79,6 +81,62 @@ function App() {
       setTestCases(temp);
     }
   };
+  const [pieData, setPieData] = useState<any>("");
+  const [pieData2, setPieData2] = useState<any>("");
+  const createPieData = async (tempArray: any) => {
+    let regPass = 0;
+    let regFail = 0;
+    const reg = ["Pass", "Fail"];
+    for (let index = 0; index < tempArray.length; index++) {
+      const element = tempArray[index];
+      if (element.lastVerdict === "Pass") {
+        regPass++;
+      } else {
+        regFail++;
+      }
+    }
+    let checkPass = 0;
+    let checkFail = 0;
+    let fixed = 0;
+    let itfail = 0;
+    let regression = 0;
+    let flaky = 0;
+    for (let index = 0; index < tempArray.length; index++) {
+      const element = tempArray[index];
+      if (element.verdictCheck === "Pass") {
+        checkPass++;
+      }
+      if (element.verdictCheck === "Fail") {
+        checkFail++;
+      }
+      if (element.verdictCheck === "Fixed") {
+        fixed++;
+      }
+      if (element.verdictCheck === "Intermittent Failure") {
+        itfail++;
+      }
+      if (element.verdictCheck === "Regression") {
+        regression++;
+      }
+      if (element.verdictCheck === "Flaky") {
+        flaky++;
+      }
+    }
+
+    let pie = {
+      pass: regPass,
+      fail: regFail,
+    };
+    const pieCheck = {
+      pass: checkPass,
+      fail: checkFail,
+      fixed,
+      intermittentFailure: itfail,
+      regressions: regression,
+      flaky: flaky,
+    };
+    return { pie, pieCheck };
+  };
   const filterVerdictCheck = (testCase: string) => {
     const tempArray = rawTestCases;
     setVerdictCheck(testCase);
@@ -99,8 +157,6 @@ function App() {
           <div className="sec"></div>
         </>
       ) : (
-        // Show the loading animation
-        // Render your data or main content here
         <div>
           <DashBoard
             testCases={testCases}
@@ -142,6 +198,7 @@ function App() {
                     : "animate__animated animate__rotateIn"
                 } contentTopLeft`}>
                 <VCheck
+                  data={pieData2}
                   setVerdictCheck={filterVerdictCheck}
                   VerdictCheck={VerdictCheck}></VCheck>
               </div>
@@ -152,6 +209,7 @@ function App() {
                     : "animate__animated animate__rotateIn"
                 } contentTopLeft`}>
                 <PieChart
+                  data={pieData}
                   Verdict={FilterVerdict}
                   setVerdict={filterVerdict}></PieChart>
               </div>
