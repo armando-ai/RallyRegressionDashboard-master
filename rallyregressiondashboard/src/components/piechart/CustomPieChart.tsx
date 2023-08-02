@@ -19,7 +19,8 @@ const CustomPieChart = (props: any) => {
     <svg
       className="custom-pie-chart"
       viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       {data.map((item) => {
         const sliceAngle = (item.value / totalValue) * 360;
         const endAngle = startAngle + sliceAngle;
@@ -33,34 +34,32 @@ const CustomPieChart = (props: any) => {
 
         const pathData = `M 50 50 L ${startAngleX} ${startAngleY} A 50 50 0 ${largeArcFlag} 1 ${endAngleX} ${endAngleY} Z`;
 
+        // Calculate label position
+        const labelAngle = startAngle + sliceAngle / 2;
+        const labelX = 50 + 35 * Math.cos((Math.PI / 180) * labelAngle);
+        const labelY = 50 + 35 * Math.sin((Math.PI / 180) * labelAngle);
+
         startAngle += sliceAngle;
 
-        //text for pie slice
-        const textX =
-          50 +
-          (50 / 2) * Math.cos((Math.PI / 180) * (startAngle + sliceAngle / 2));
-        const textY =
-          50 +
-          (50 / 2) * Math.sin((Math.PI / 180) * (startAngle + sliceAngle / 2));
-
         return (
-          <>
+          <g key={item.label}>
             <path
-              key={item.label}
               d={pathData}
               fill={item.color}
               onClick={(event) => handleClick(event, item)}
             />
+            {/* Add text label */}
             <text
-              x={textX}
-              y={textY}
+              x={labelX}
+              y={labelY}
               textAnchor="middle"
-              dominantBaseline="middle"
-              fontSize="12px"
-              fill="#000">
+              fontSize="8"
+              fill="#000000"
+              pointerEvents="none" // Prevent text from blocking click events
+            >
               {item.label}
             </text>
-          </>
+          </g>
         );
       })}
     </svg>

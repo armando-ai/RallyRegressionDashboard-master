@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-y: hidden;
+
 
 }
 
@@ -134,12 +134,19 @@ code {
 }
 
 .col-item {
-  height: 50vh;
+  position: relative;
+
+
+  background-color: #000000c3;
+
+  overflow-x: hidden;
+  display: flex;
+
 
   font-size: medium;
   display: flex;
   flex-direction: column;
-  background-color: #000000c3;
+
   padding: 25px;
 }
 
@@ -163,6 +170,14 @@ code {
   margin-right: 1.5%;
   flex-direction: column;
   box-shadow: 0px 0px 5px 5px #1f1a1a81;
+}
+
+.dashboard-area {
+  background-color: #000000c3;
+  height: 51%;
+  width: 100%;
+  position: relative;
+
 }
 
 .icon-container {
@@ -388,11 +403,27 @@ input[type="text"]::placeholder {
   text-overflow: balance;
 }
 
+.landing {
+
+  position: relative;
+  height: 100%;
+
+  width: 100%;
+  top: 0;
+}
+
+.landingInput {
+  margin: auto;
+}
+
 .full {
-  background-color: #000000c3;
+
+  position: relative;
+
   height: 50vh;
   width: 100%;
   display: flex;
+  background-color: #000000c3;
 }
 
 /* Styles for the popup overlay that covers the entire screen */
@@ -500,7 +531,7 @@ label:hover {
 }
 
 #videoButton {
- 
+
   bottom: 20px;
   left: 20px;
   /* Position the button from the left edge of the screen */
@@ -596,6 +627,3 @@ label:hover {
   transform: scale(0.8);
   cursor: pointer;
 }
-
-
-

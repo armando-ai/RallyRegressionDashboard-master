@@ -8,11 +8,10 @@ import { TestCaseDashBoard } from "./types/dashboard/test-case-dashboard";
 import LoadingAnimation from "./components/LoadingAnimation";
 import DashBoard from "./pages/DashBoard";
 import LastResult from "./components/dashboard/last-resullt";
-import Filter from "./components/filter/filter";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faChartPie } from "@fortawesome/free-solid-svg-icons";
-import PieChart from "./components/piechart/CustomPieChart";
-import VCheck from "./components/piechart/VCheckPie";
+
+import Landing from "./pages/Landing";
+import FilterArea from "./components/filterArea/FilterArea";
+
 function App() {
   const [testCases, setTestCases] = useState<Array<TestCaseDashBoard>>([]);
   const [originaltestCases, setOriginalTestCases] = useState<
@@ -30,20 +29,14 @@ function App() {
     let testCaseRef: string;
 
     if (
-      !window.location.href
-        .toString()
-        .includes("?apiKey=_QBmqvSMdTDGt8hJNq2LK3t1KLhWby0o6pyUJSgPMqw")
+      !window.location.href.toString().includes(`?apiKey=${process.env.REACT_APP_APIKEY}`)
     ) {
       window.location.href =
-        window.location.href.toString() +
-        "?apiKey=_QBmqvSMdTDGt8hJNq2LK3t1KLhWby0o6pyUJSgPMqw";
-      window.open(
-        "https://rally1.rallydev.com/#/196310419468d/dashboard",
-        "_blank"
-      );
+        window.location.href.toString() + `?apiKey=${process.env.REACT_APP_APIKEY}`;
+     
     }
     const api = new RallyApi();
-    const testSetRef = await api.getTestSetRef("TS42962");
+    const testSetRef = await api.getTestSetRef("TS51048");
     if (testSetRef) {
       testCaseRef = await api.getTestCaseRef(testSetRef);
       const testCases = await api.getTestCases(testCaseRef);
@@ -150,106 +143,33 @@ function App() {
   const [FilterType, setFilterType] = useState("filter");
   const [PieType, setPieType] = useState("check");
   return (
-    <div className="hidden">
+    <div className={fetchedData === false ? `hidden` : ""}>
       {fetchedData === false ? (
         <>
           <LoadingAnimation />
           <div className="sec"></div>
         </>
       ) : (
-        <div>
-          <DashBoard
-            testCases={testCases}
-            fetchedUpdateData={fetchedUpdateData}
-            setResult={setresultData}
-          />
-          <div className="topLeftArea">
-            <div className="icon-container">
-              <div>
-                <FontAwesomeIcon
-                  icon={faFilter}
-                  onClick={() => {
-                    setFilterType("filter");
-                    console.log(FilterType);
-                  }}
-                  className="filter-icon"
-                />
-              </div>
-
-              <FontAwesomeIcon
-                onClick={() => {
-                  setFilterType("pie");
-                  console.log(FilterType);
-                }}
-                icon={faChartPie}
-                className="pie-chart-icon"
-              />
-            </div>
-            <div
-              className={`${
-                FilterType !== "pie"
-                  ? "animate__animated animate__backOutLeft"
-                  : "animate__animated animate__backInLeft"
-              } contentTopLeft`}>
-              <div
-                className={`${
-                  PieType !== "check"
-                    ? "animate__animated animate__rotateOut not-there"
-                    : "animate__animated animate__rotateIn"
-                } contentTopLeft`}>
-                <VCheck
-                  data={pieData2}
-                  setVerdictCheck={filterVerdictCheck}
-                  VerdictCheck={VerdictCheck}></VCheck>
-              </div>
-              <div
-                className={`${
-                  PieType !== "final"
-                    ? "animate__animated animate__rotateOut not-there"
-                    : "animate__animated animate__rotateIn"
-                } contentTopLeft`}>
-                <PieChart
-                  data={pieData}
-                  Verdict={FilterVerdict}
-                  setVerdict={filterVerdict}></PieChart>
-              </div>
-              <div className="pieTypes">
-                <label onClick={() => setPieType("check")}>
-                  <input
-                    type="checkbox"
-                    value="option1"
-                    checked={PieType === "check"}
-                    onChange={() => setPieType("check")}
-                  />
-                  Verdict Check
-                </label>
-                <label onClick={() => setPieType("final")}>
-                  <input
-                    type="checkbox"
-                    value="option2"
-                    checked={PieType === "final"}
-                    onChange={() => setPieType("final")}
-                  />
-                  Last Verdict
-                </label>
-              </div>
-            </div>
-            <div
-              className={`${
-                FilterType !== "filter"
-                  ? "animate__animated animate__backOutLeft"
-                  : "animate__animated animate__backInLeft"
-              } contentTopLeft `}>
-              <Filter
-                Verdict={FilterVerdict}
-                setVerdict={filterVerdict}
-                setVerdictCheck={filterVerdictCheck}
-                VerdictCheck={VerdictCheck}
-                Imbalance={Imbalance}
-                setImbalance={filterImbalance}></Filter>
-            </div>
+        <div className="fill">
+          <Landing />
+          <div className="dashboard-area">
+            <DashBoard
+              testCases={testCases}
+              fetchedUpdateData={fetchedUpdateData}
+              setResult={setresultData}
+            />
+            <FilterArea
+              setFilterType={setFilterType}
+              FilterType={FilterType}
+              PieType={PieType}
+              pieData={pieData}
+              setVerdict={filterVerdict}
+              setVerdictCheck={filterVerdictCheck}
+              pieData2={pieData2}
+              setPieType={setPieType}
+              FilterVerdict={FilterVerdict}
+              VerdictCheck={VerdictCheck}></FilterArea>
           </div>
-
           {resultData.build !== undefined ? (
             <LastResult result={resultData} />
           ) : (

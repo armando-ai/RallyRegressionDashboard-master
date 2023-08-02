@@ -1,7 +1,6 @@
 import React from "react";
 
 const VCheckPie = (props: any) => {
-
   const data = [
     { label: "Pass", value: props.data.pass, color: "#1a2033" },
     { label: "Fail", value: props.data.fail, color: "#cfa7d1" },
@@ -42,18 +41,38 @@ const VCheckPie = (props: any) => {
 
         const pathData = `M 50 50 L ${startAngleX} ${startAngleY} A 50 50 0 ${largeArcFlag} 1 ${endAngleX} ${endAngleY} Z`;
 
+        // Calculate label position
+        const labelAngle = startAngle + sliceAngle / 2;
+        var val = item.label === "Intermittent Failure" ? 49 : 52
+        const labelX = 51 + 30 * Math.cos((Math.PI / 180) * labelAngle); // Set a distance from the center
+        const labelY = val + 30 * Math.sin((Math.PI / 180) * labelAngle); // Set a distance from the center
+
+        // Calculate rotation angle for the text
+        const rotationAngle =
+          labelAngle > 90 && labelAngle < 270 ? labelAngle + 180 : labelAngle;
+
         startAngle += sliceAngle;
 
-        const textX = 50 + (50 / 2) * Math.cos((Math.PI / 180) * (startAngle + sliceAngle / 2));
-        const textY = 50 + (50 / 2) * Math.sin((Math.PI / 180) * (startAngle + sliceAngle / 2));
-
         return (
-          <path
-            key={item.label}
-            d={pathData}
-            fill={item.color}
-            onClick={(event) => handleClick(event, item)}
-          />
+          <g key={item.label}>
+            <path
+              d={pathData}
+              fill={item.color}
+              onClick={(event) => handleClick(event, item)}
+            />
+            {item.value > 0 && (
+              <text
+                x={labelX}
+                y={labelY}
+                textAnchor="middle"
+                fontSize={item.label === "Intermittent Failure" ? 3.5 : 6}
+                fill="#f5f5f5"
+                pointerEvents="none" // Prevent text from blocking click events
+                transform={`rotate(${rotationAngle}, ${labelX}, ${labelY})`}>
+                {item.label}
+              </text>
+            )}
+          </g>
         );
       })}
     </svg>
