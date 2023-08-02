@@ -1,10 +1,12 @@
 import React from "react";
 
 const CustomPieChart = (props: any) => {
-  const data = [
-    { label: "Pass", value: props.data.pass, color: "#00ff00" },
-    { label: "Fail", value: props.data.fail, color: "#FF0000" },
+  const datas = [
+    { label: "Pass", value: props.data.pass, color: "#34b233" },
+    { label: "Fail", value: props.data.fail, color: "#D70040" },
   ];
+
+  const data = datas.sort((a,b) => a.value - b.value);
 
   const totalValue = data.reduce((sum, item) => sum + item.value, 0);
   let startAngle = 0;
@@ -15,6 +17,8 @@ const CustomPieChart = (props: any) => {
     // Perform any action you need here based on the clicked dataset
   };
 
+
+
   return (
     <svg
       className="custom-pie-chart"
@@ -22,6 +26,12 @@ const CustomPieChart = (props: any) => {
       xmlns="http://www.w3.org/2000/svg"
     >
       {data.map((item) => {
+          const boxStyle = {
+            width: "5px",
+            height: "5px",
+            border: "1px solid black",
+            background: item.color
+          }
         const sliceAngle = (item.value / totalValue) * 360;
         const endAngle = startAngle + sliceAngle;
         const largeArcFlag = sliceAngle > 180 ? 1 : 0;
