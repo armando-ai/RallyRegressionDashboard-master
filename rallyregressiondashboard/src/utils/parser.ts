@@ -3,7 +3,7 @@ import { TestCaseDashBoard } from "../types/dashboard/test-case-dashboard";
 import { TestCase } from "../types/rally/test-cases/test-case";
 import { TestCaseTestResult } from "../types/rally/test-cases/test-case-test-result";
 
-export async function parseTestCase(testCases: Array<TestCase>, imbalance?: number) {
+export async function parseTestCase(testCases: Array<TestCase>, imbalance?: number, flakyFlips?: number) {
   const parsedTestCases = new Array<TestCaseDashBoard>();
   for (let index = 0; index < testCases.length; index++) {
     const testCase = testCases[index];
@@ -51,6 +51,7 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
       let pass = 0;
       let fail = 0;
       let imbalanceNumber = imbalance ? imbalance : 3;
+     
       results.reverse();
       for (let index = 0; index < (results.length > 10 ? 10 : results.length); index++) {
         const element = results[index];
@@ -82,7 +83,7 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
           parsedTestCase.verdictCheck = "Regression";
         } else if (results[0].Verdict?.includes("Fail") && pass > 5) {
           parsedTestCase.verdictCheck = "Intermittent Failure";
-        } else if (isFlaky(results)) {
+        } else if (isFlaky(results, flakyFlips)) {
           parsedTestCase.verdictCheck = "Flaky";
         } else if (
           results[0].Verdict?.includes("Pass") &&
@@ -134,7 +135,7 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
   }
   return parsedTestCases;
 }
-function isFlaky(results: any) {
+function isFlaky(results: any, flakyFlips?: number) {
   let flips = 0;
   let consistency = 0;
 
@@ -162,10 +163,9 @@ function isFlaky(results: any) {
     }
   }
 
-  if (flips > (results.length > 10 ? 2 : results.length * .3)) {
-
+  if (flakyFlips !== undefined ? flips > flakyFlips : flips > (results.length > 10 ? 2 : results.length * .3)) {
     return true;
-  }
+}
 
   return false;
 }

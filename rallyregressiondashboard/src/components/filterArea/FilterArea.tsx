@@ -106,7 +106,10 @@ const FilterArea = (props: any) => {
           setVerdictCheck={props.setVerdictCheck}
           VerdictCheck={props.VerdictCheck}
           Imbalance={props.Imbalance}
-          setImbalance={props.filterImbalance}></Filter>
+          setImbalance={props.filterImbalance}
+          FlakyFlips={props.FlakyFlips}
+          setFlakyFlips={props.filterFlakyFlips}>
+          </Filter>
       </div>
     </div>
   );

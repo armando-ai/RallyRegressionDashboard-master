@@ -42,6 +42,15 @@ const Filter = (props: any) => {
           placeholder="Enter Imbalance"
         />
       </div>
+      <div className="filterRow">
+        <h1>Flaky Flips:</h1>
+        <input type="text" 
+        value = {props.FlakyFlips}
+        onChange = {(e) => {
+          props.setFlakyFlips(e.target.value);
+        }}  
+        />
+        </div>
     </div>
   );
 };

@@ -23,6 +23,8 @@ function App() {
   const [resultData, setresultData] = useState<any>({});
   const [Imbalance, setImbalance] = useState("");
   const [testCasesImbalance, setImbalanceTestCases] = useState([]);
+  const [FlakyFlips, setFlakyFlips] = useState("");
+  const [testCasesFlakyFlips, setFlakyFlipsTestCases] = useState([]);
   const [fetchedUpdateData, setFetchedUpdateData] = useState<boolean>(false);
   const [selectedCheckbox, setSelectedCheckbox] = useState("");
   const fetchData = async () => {
@@ -41,6 +43,7 @@ function App() {
       testCaseRef = await api.getTestCaseRef(testSetRef);
       const testCases = await api.getTestCases(testCaseRef);
       setImbalanceTestCases(testCases);
+      setFlakyFlipsTestCases(testCases);
       const parsedTestCases = await parseTestCase(testCases);
       const { pie, pieCheck } = await createPieData(parsedTestCases);
       setTestCases(parsedTestCases);
@@ -56,14 +59,21 @@ function App() {
     fetchData();
   }
   const rawTestCases = originaltestCases;
-
+  const filterFlakyFlips = async (FlakyFlips : string) => {
+    setFlakyFlips(FlakyFlips);
+    setFetchedUpdateData(true);
+    const parsedTestCases = await parseTestCase(testCasesFlakyFlips, +Imbalance,  +FlakyFlips);
+    setTestCases(parsedTestCases);
+    setFetchedUpdateData(false);
+  }
   const filterImbalance = async (Imbalance: string) => {
     setImbalance(Imbalance);
     setFetchedUpdateData(true);
-    const parsedTestCases = await parseTestCase(testCasesImbalance, +Imbalance);
+    const parsedTestCases = await parseTestCase(testCasesImbalance, +Imbalance, +FlakyFlips);
     setTestCases(parsedTestCases);
     setFetchedUpdateData(false);
   };
+
   const filterVerdict = (testCase: string) => {
     const tempArray = rawTestCases;
     setFilterVerdict(testCase);
@@ -168,7 +178,9 @@ function App() {
               pieData2={pieData2}
               setPieType={setPieType}
               FilterVerdict={FilterVerdict}
-              VerdictCheck={VerdictCheck}></FilterArea>
+              filterImbalance={filterImbalance}
+              VerdictCheck={VerdictCheck}
+              filterFlakyFlips={filterFlakyFlips}></FilterArea>
           </div>
           {resultData.build !== undefined ? (
             <LastResult result={resultData} />
