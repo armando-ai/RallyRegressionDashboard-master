@@ -8,6 +8,7 @@ import DashBoard from "./DashBoard";
 import LastResult from "../components/dashboard/last-resullt";
 import Landing from "./Landing";
 import FilterArea from "../components/filterArea/FilterArea";
+import LoadingAnimation from "../components/LoadingAnimation";
 
 function App() {
   const [testCases, setTestCases] = useState<Array<TestCaseDashBoard>>([]);
@@ -20,6 +21,8 @@ function App() {
   const [resultData, setresultData] = useState<any>({});
   const [Imbalance, setImbalance] = useState("");
   const [testCasesImbalance, setImbalanceTestCases] = useState([]);
+  const [FlakyFlips, setFlakyFlips] = useState("");
+  const [testCasesFlakyFlips, setFlakyFlipsTestCases] = useState([]);
   const [fetchedUpdateData, setFetchedUpdateData] = useState<boolean>(false);
   
   const [pieData, setPieData] = useState<any>("");
@@ -44,6 +47,7 @@ function App() {
       testCaseRef = await api.getTestCaseRef(testSetRef);
       const testCases = await api.getTestCases(testCaseRef);
       setImbalanceTestCases(testCases);
+      setFlakyFlipsTestCases(testCases);
       const parsedTestCases = await parseTestCase(testCases);
       const { pie, pieCheck } = await createPieData(parsedTestCases);
       setTestCases(parsedTestCases);
@@ -59,14 +63,21 @@ function App() {
     fetchData();
   }
   const rawTestCases = originaltestCases;
-
+  const filterFlakyFlips = async (FlakyFlips : string) => {
+    setFlakyFlips(FlakyFlips);
+    setFetchedUpdateData(true);
+    const parsedTestCases = await parseTestCase(testCasesFlakyFlips, +Imbalance,  +FlakyFlips);
+    setTestCases(parsedTestCases);
+    setFetchedUpdateData(false);
+  }
   const filterImbalance = async (Imbalance: string) => {
     setImbalance(Imbalance);
     setFetchedUpdateData(true);
-    const parsedTestCases = await parseTestCase(testCasesImbalance, +Imbalance);
+    const parsedTestCases = await parseTestCase(testCasesImbalance, +Imbalance, +FlakyFlips);
     setTestCases(parsedTestCases);
     setFetchedUpdateData(false);
   };
+
   const filterVerdict = (testCase: string) => {
     const tempArray = rawTestCases;
     setFilterVerdict(testCase);
@@ -147,26 +158,41 @@ function App() {
   }
   return (
     <div className={fetchedData === false ? `hidden` : ""}>
-      <div className="fill">
-        <Landing />
-        <div className="dashboard-area">
-          <DashBoard
-            testCases={testCases}
-            fetchedUpdateData={fetchedUpdateData}
-            setResult={setresultData}
-          />
-          <FilterArea
-            setFilterType={setFilterType}
-            FilterType={FilterType}
-            PieType={PieType}
-            pieData={pieData}
-            setVerdict={filterVerdict}
-            setVerdictCheck={filterVerdictCheck}
-            pieData2={pieData2}
-            setPieType={setPieType}
-            FilterVerdict={FilterVerdict}
-            filterImbalance={filterImbalance}
-            VerdictCheck={VerdictCheck}></FilterArea>
+      {fetchedData === false ? (
+        <>
+          <LoadingAnimation />
+          <div className="sec"></div>
+        </>
+      ) : (
+        <div className="fill">
+          <Landing />
+          <div className="dashboard-area">
+            <DashBoard
+              testCases={testCases}
+              fetchedUpdateData={fetchedUpdateData}
+              setResult={setresultData}
+            />
+            <FilterArea
+              setFilterType={setFilterType}
+              FilterType={FilterType}
+              PieType={PieType}
+              pieData={pieData}
+              setVerdict={filterVerdict}
+              setVerdictCheck={filterVerdictCheck}
+              pieData2={pieData2}
+              setPieType={setPieType}
+              FilterVerdict={FilterVerdict}
+              filterImbalance={filterImbalance}
+              VerdictCheck={VerdictCheck}
+              filterFlakyFlips={filterFlakyFlips}></FilterArea>
+          </div>
+          {resultData.build !== undefined ? (
+            <LastResult result={resultData} />
+          ) : (
+            <div className="full">
+              <br></br>
+            </div>
+          )}
         </div>
         {resultData.build !== undefined ? (
           <LastResult result={resultData} />

@@ -1,19 +1,20 @@
 import React from "react";
 
 const VCheckPie = (props: any) => {
-  const data = [
-    { label: "Pass", value: props.data.pass, color: "#1a2033" },
-    { label: "Fail", value: props.data.fail, color: "#cfa7d1" },
-    { label: "Fixed", value: props.data.fixed, color: "#27564f" },
+  const datas = [
+    { label: "Pass", value: props.data.pass, color: "#34b233" },
+    { label: "Fail", value: props.data.fail, color: "#D70040" },
+    { label: "Fixed", value: props.data.fixed, color: "#836953" },
     {
       label: "Intermittent Failure",
       value: props.data.intermittentFailure,
-      color: "#f28d7b",
+      color: "#836953",
     },
-    { label: "Regression", value: props.data.regressions, color: "#1c5b8e" },
-    { label: "Flaky", value: props.data.flaky, color: "#511d46" },
+    { label: "Regression", value: props.data.regressions, color: "#A7C7E7" },
+    { label: "Flaky", value: props.data.flaky, color: "#fdfd96" },
   ];
 
+  const data = datas.sort((a,b) => a.value - b.value);
   const totalValue = data.reduce((sum, item) => sum + item.value, 0);
   let startAngle = 0;
 
@@ -60,12 +61,13 @@ const VCheckPie = (props: any) => {
               fill={item.color}
               onClick={(event) => handleClick(event, item)}
             />
-            {item.value > 0 && (
+            {(
               <text
                 x={labelX}
                 y={labelY}
                 textAnchor="middle"
                 fontSize={item.label === "Intermittent Failure" ? 3.5 : 6}
+                display={sliceAngle < 35 ? "none" : "block"}
                 fill="#f5f5f5"
                 pointerEvents="none" // Prevent text from blocking click events
                 transform={`rotate(${rotationAngle}, ${labelX}, ${labelY})`}>

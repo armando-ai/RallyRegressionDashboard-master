@@ -6,6 +6,8 @@ import { faFilter, faChartPie } from "@fortawesome/free-solid-svg-icons";
 import Filter from "../filter/Filter";
 import CustomPieChart from "../piechart/CustomPieChart";
 import VCheckPie from "../piechart/VCheckPie";
+import PieKey from "../piechart/PieKey";
+import PieKey2 from "../piechart/PieKey2";
 
 const FilterArea = (props: any) => {
   return (
@@ -41,12 +43,18 @@ const FilterArea = (props: any) => {
               ? "animate__animated animate__rotateOut not-there"
               : "animate__animated animate__rotateIn"
           } contentTopLeft`}>
+          <PieKey2
+            data={props.pieData2}
+
+            setVerdictCheck={props.setVerdictCheck}
+            VerdictCheck={props.VerdictCheck}
+          ></PieKey2>
           <VCheckPie
             data={props.pieData2}
         
           setVerdictCheck={props.setVerdictCheck}
           VerdictCheck={props.VerdictCheck}
-            ></VCheckPie>
+          ></VCheckPie>
         </div>
         <div
           className={`${
@@ -54,10 +62,16 @@ const FilterArea = (props: any) => {
               ? "animate__animated animate__rotateOut not-there"
               : "animate__animated animate__rotateIn"
           } contentTopLeft`}>
+          <PieKey
+            data={props.pieData}
+            Verdict={props.FilterVerdict}
+            setVerdict={props.setVerdict}
+          ></PieKey>
           <CustomPieChart
             data={props.pieData}
             Verdict={props.FilterVerdict}
-            setVerdict={props.setVerdict}></CustomPieChart>
+            setVerdict={props.setVerdict}>
+          </CustomPieChart>
         </div>
         <div className="pieTypes">
           <label onClick={() => props.setPieType("check")}>
@@ -93,7 +107,10 @@ const FilterArea = (props: any) => {
           setVerdictCheck={props.setVerdictCheck}
           VerdictCheck={props.VerdictCheck}
           Imbalance={props.Imbalance}
-          setImbalance={props.filterImbalance}></Filter>
+          setImbalance={props.filterImbalance}
+          FlakyFlips={props.FlakyFlips}
+          setFlakyFlips={props.filterFlakyFlips}>
+          </Filter>
       </div>
     </div>
   );

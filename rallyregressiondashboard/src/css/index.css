@@ -581,6 +581,7 @@ label:hover {
 
 .not-there {
   pointer-events: none;
+  
 }
 
 #videoButton {
@@ -646,6 +647,8 @@ label:hover {
 .sel-icon {
   color: #000 !important;
 }
+
+
 
 .media-switch-icon {
   z-index: 5;
