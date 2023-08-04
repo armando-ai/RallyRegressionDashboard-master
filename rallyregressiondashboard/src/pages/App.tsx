@@ -24,7 +24,7 @@ function App() {
   const [FlakyFlips, setFlakyFlips] = useState("");
   const [testCasesFlakyFlips, setFlakyFlipsTestCases] = useState([]);
   const [fetchedUpdateData, setFetchedUpdateData] = useState<boolean>(false);
-  
+
   const [pieData, setPieData] = useState<any>("");
   const [pieData2, setPieData2] = useState<any>("");
   const [FilterType, setFilterType] = useState("filter");
@@ -63,17 +63,25 @@ function App() {
     fetchData();
   }
   const rawTestCases = originaltestCases;
-  const filterFlakyFlips = async (FlakyFlips : string) => {
+  const filterFlakyFlips = async (FlakyFlips: string) => {
     setFlakyFlips(FlakyFlips);
     setFetchedUpdateData(true);
-    const parsedTestCases = await parseTestCase(testCasesFlakyFlips, +Imbalance,  +FlakyFlips);
+    const parsedTestCases = await parseTestCase(
+      testCasesFlakyFlips,
+      +Imbalance,
+      +FlakyFlips
+    );
     setTestCases(parsedTestCases);
     setFetchedUpdateData(false);
-  }
+  };
   const filterImbalance = async (Imbalance: string) => {
     setImbalance(Imbalance);
     setFetchedUpdateData(true);
-    const parsedTestCases = await parseTestCase(testCasesImbalance, +Imbalance, +FlakyFlips);
+    const parsedTestCases = await parseTestCase(
+      testCasesImbalance,
+      +Imbalance,
+      +FlakyFlips
+    );
     setTestCases(parsedTestCases);
     setFetchedUpdateData(false);
   };
@@ -88,7 +96,7 @@ function App() {
       setTestCases(temp);
     }
   };
- 
+
   const createPieData = async (tempArray: any) => {
     let regPass = 0;
     let regFail = 0;
@@ -153,9 +161,7 @@ function App() {
       setTestCases(temp);
     }
   };
-  const rallyAuth =()=>{
-    
-  }
+  const rallyAuth = () => {};
   return (
     <div className={fetchedData === false ? `hidden` : ""}>
       {fetchedData === false ? (
@@ -194,14 +200,7 @@ function App() {
             </div>
           )}
         </div>
-        {resultData.build !== undefined ? (
-          <LastResult result={resultData} />
-        ) : (
-          <div className="full">
-            <br></br>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }
