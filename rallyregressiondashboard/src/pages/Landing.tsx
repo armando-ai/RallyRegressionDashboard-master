@@ -36,7 +36,7 @@ const Landing = ({ initialTestSet, onUpdateTestSet }: any) => {
         placeholder="Test Set Name..."
       />
       <button id="videoButton" onClick={()=> {onUpdateTestSet(testSet)}}>
-                View Video
+               Submit Test Set
               </button>
     
     </div>

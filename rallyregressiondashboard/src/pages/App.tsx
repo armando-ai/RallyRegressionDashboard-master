@@ -28,15 +28,13 @@ function App() {
 
   let testCaseRef: string;
   const onUpdateTestSet = (newValue: any) => {
-    console.log("testcase value" + newValue);
     setSelectedTestSet(newValue);
     updateTestSet(newValue); 
   };
 
   const updateTestSet = async (newValue: any) => {
     const api = new RallyApi();
-    const testSetRef = await api.getTestSetRef(selectedTestSet);
-    console.log("selected test set: " + selectedTestSet)
+    const testSetRef = await api.getTestSetRef(newValue);
     if (testSetRef) {
       setFetchedUpdateData(true);
       testCaseRef = await api.getTestCaseRef(testSetRef);
