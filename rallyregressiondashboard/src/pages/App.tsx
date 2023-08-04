@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
-import "./App.css";
-import RallyApi from "./rest-service/rally-api";
-import { parseTestCase } from "./utils/parser";
-import { TestCase } from "./types/rally/test-cases/test-case";
-import { TestCaseDashBoard } from "./types/dashboard/test-case-dashboard";
-import LoadingAnimation from "./components/LoadingAnimation";
-import DashBoard from "./pages/DashBoard";
-import LastResult from "./components/dashboard/last-resullt";
-
-import Landing from "./pages/Landing";
-import FilterArea from "./components/filterArea/FilterArea";
+import "../css/App.css";
+import RallyApi from "../rest-service/rally-api";
+import { parseTestCase } from "../utils/parser";
+import { TestCaseDashBoard } from "../types/dashboard/test-case-dashboard";
+import DashBoard from "./DashBoard";
+import LastResult from "../components/dashboard/last-resullt";
+import Landing from "./Landing";
+import FilterArea from "../components/filterArea/FilterArea";
 
 function App() {
   const [testCases, setTestCases] = useState<Array<TestCaseDashBoard>>([]);
@@ -24,16 +21,22 @@ function App() {
   const [Imbalance, setImbalance] = useState("");
   const [testCasesImbalance, setImbalanceTestCases] = useState([]);
   const [fetchedUpdateData, setFetchedUpdateData] = useState<boolean>(false);
-  const [selectedCheckbox, setSelectedCheckbox] = useState("");
+  
+  const [pieData, setPieData] = useState<any>("");
+  const [pieData2, setPieData2] = useState<any>("");
+  const [FilterType, setFilterType] = useState("filter");
+  const [PieType, setPieType] = useState("check");
   const fetchData = async () => {
     let testCaseRef: string;
 
     if (
-      !window.location.href.toString().includes(`?apiKey=${process.env.REACT_APP_APIKEY}`)
+      !window.location.href
+        .toString()
+        .includes(`?apiKey=${process.env.REACT_APP_APIKEY}`)
     ) {
       window.location.href =
-        window.location.href.toString() + `?apiKey=${process.env.REACT_APP_APIKEY}`;
-     
+        window.location.href.toString() +
+        `?apiKey=${process.env.REACT_APP_APIKEY}`;
     }
     const api = new RallyApi();
     const testSetRef = await api.getTestSetRef("TS51048");
@@ -74,8 +77,7 @@ function App() {
       setTestCases(temp);
     }
   };
-  const [pieData, setPieData] = useState<any>("");
-  const [pieData2, setPieData2] = useState<any>("");
+ 
   const createPieData = async (tempArray: any) => {
     let regPass = 0;
     let regFail = 0;
@@ -140,45 +142,40 @@ function App() {
       setTestCases(temp);
     }
   };
-  const [FilterType, setFilterType] = useState("filter");
-  const [PieType, setPieType] = useState("check");
+  const rallyAuth =()=>{
+    
+  }
   return (
     <div className={fetchedData === false ? `hidden` : ""}>
-      {fetchedData === false ? (
-        <>
-          <LoadingAnimation />
-          <div className="sec"></div>
-        </>
-      ) : (
-        <div className="fill">
-          <Landing />
-          <div className="dashboard-area">
-            <DashBoard
-              testCases={testCases}
-              fetchedUpdateData={fetchedUpdateData}
-              setResult={setresultData}
-            />
-            <FilterArea
-              setFilterType={setFilterType}
-              FilterType={FilterType}
-              PieType={PieType}
-              pieData={pieData}
-              setVerdict={filterVerdict}
-              setVerdictCheck={filterVerdictCheck}
-              pieData2={pieData2}
-              setPieType={setPieType}
-              FilterVerdict={FilterVerdict}
-              VerdictCheck={VerdictCheck}></FilterArea>
-          </div>
-          {resultData.build !== undefined ? (
-            <LastResult result={resultData} />
-          ) : (
-            <div className="full">
-              <br></br>
-            </div>
-          )}
+      <div className="fill">
+        <Landing />
+        <div className="dashboard-area">
+          <DashBoard
+            testCases={testCases}
+            fetchedUpdateData={fetchedUpdateData}
+            setResult={setresultData}
+          />
+          <FilterArea
+            setFilterType={setFilterType}
+            FilterType={FilterType}
+            PieType={PieType}
+            pieData={pieData}
+            setVerdict={filterVerdict}
+            setVerdictCheck={filterVerdictCheck}
+            pieData2={pieData2}
+            setPieType={setPieType}
+            FilterVerdict={FilterVerdict}
+            filterImbalance={filterImbalance}
+            VerdictCheck={VerdictCheck}></FilterArea>
         </div>
-      )}
+        {resultData.build !== undefined ? (
+          <LastResult result={resultData} />
+        ) : (
+          <div className="full">
+            <br></br>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

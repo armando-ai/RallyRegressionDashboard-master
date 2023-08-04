@@ -43,7 +43,7 @@ const FilterArea = (props: any) => {
           } contentTopLeft`}>
           <VCheckPie
             data={props.pieData2}
-         
+        
           setVerdictCheck={props.setVerdictCheck}
           VerdictCheck={props.VerdictCheck}
             ></VCheckPie>
@@ -79,6 +79,7 @@ const FilterArea = (props: any) => {
             Last Verdict
           </label>
         </div>
+
       </div>
       <div
         className={`${

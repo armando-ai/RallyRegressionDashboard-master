@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import Typewriter from "../components/typewriter/TypeWriter";
+
 
 const Landing = () => {
   const [testSet, settestSet] = useState("");
@@ -12,14 +14,23 @@ const Landing = () => {
     console.log(offset);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
+  const str = [
+    `Enter A Test Set.....`,
+    `Explore.....`,
+    `The Rally Custom Dashboard.....`,
+  ];
   return (
     <div className="landing">
+      <Typewriter strings={str} />
       <input
         className="landingInput"
-        onChange={(e) => {
-          settestSet(e.target.value);
-        }}></input>
+        type="text"
+        value={testSet}
+        style={{ fontWeight: "100!important" }}
+        onChange={(e) => settestSet(e.target.value.toUpperCase())}
+        placeholder="Test Set Name..."
+      />
+    
     </div>
   );
 };

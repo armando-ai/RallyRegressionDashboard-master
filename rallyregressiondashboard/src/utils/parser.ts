@@ -35,7 +35,7 @@ export async function parseTestCase(testCases: Array<TestCase>, imbalance?: numb
       //hit attachments ref then get the Results[0]
       let attachmentUrl = null;
       if (Attachments && Attachments?.Count > 0) {
-        attachmentUrl = await api.getImageRef("http://localhost:3000/" + Attachments?._ref.replaceAll("https://rally1.rallydev.com/slm/webservice/v2.0", ""))
+        attachmentUrl = await api.getImageRef("http://localhost:3000/" + Attachments?._ref.replaceAll("https://rally1.rallydev.com/slm/webservice/v2.0", "") )
 
       }
 

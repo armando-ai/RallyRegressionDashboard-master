@@ -42,7 +42,7 @@ export class RallyApi {
     if (imageQueryResults.QueryResult.Results) {
 
       url = imageQueryResults.QueryResult.Results[0]._ref.replace("webservice/v2.0/", "");
-      return url;
+      return "http://localhost:3100/"+url.replaceAll("https://rally1.rallydev.com/slm/attachment/", "");
     }
     return null;
 

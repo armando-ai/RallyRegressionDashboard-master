@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start:dev": "concurrently \"node server.js\" \"cd rallyregressiondashboard && npm run start\""
+    "start:dev": "concurrently \"node imageserver.js\" \"node server.js\" \"cd rallyregressiondashboard && npm run start\""
+
   },
   
   "dependencies": {
