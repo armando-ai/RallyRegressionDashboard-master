@@ -24,13 +24,47 @@ function App() {
   const [FlakyFlips, setFlakyFlips] = useState("");
   const [testCasesFlakyFlips, setFlakyFlipsTestCases] = useState([]);
   const [fetchedUpdateData, setFetchedUpdateData] = useState<boolean>(false);
+  const [selectedTestSet, setSelectedTestSet] = useState("TS51048");
+
+  let testCaseRef: string;
+  const onUpdateTestSet = (newValue: any) => {
+    console.log("testcase value" + newValue);
+    setSelectedTestSet(newValue);
+    updateTestSet(newValue); 
+  };
+
+  const updateTestSet = async (newValue: any) => {
+    const api = new RallyApi();
+    const testSetRef = await api.getTestSetRef(selectedTestSet);
+    console.log("selected test set: " + selectedTestSet)
+    if (testSetRef) {
+      setFetchedUpdateData(true);
+      testCaseRef = await api.getTestCaseRef(testSetRef);
+      const testCases = await api.getTestCases(testCaseRef);
+      setImbalanceTestCases(testCases);
+      setFlakyFlipsTestCases(testCases);
+      const parsedTestCases = await parseTestCase(testCases);
+      const { pie, pieCheck } = await createPieData(parsedTestCases);
+      setTestCases(parsedTestCases);
+      setOriginalTestCases(parsedTestCases);
+      setFetchedData(true);
+      setPieData(pie);
+      setPieData2(pieCheck);
+      setFetchedUpdateData(false);
+    } else {
+      console.log("bad test set");
+    }
+
+  };
+
+  
 
   const [pieData, setPieData] = useState<any>("");
   const [pieData2, setPieData2] = useState<any>("");
   const [FilterType, setFilterType] = useState("filter");
   const [PieType, setPieType] = useState("check");
   const fetchData = async () => {
-    let testCaseRef: string;
+  
 
     if (
       !window.location.href
@@ -42,7 +76,7 @@ function App() {
         `?apiKey=${process.env.REACT_APP_APIKEY}`;
     }
     const api = new RallyApi();
-    const testSetRef = await api.getTestSetRef("TS51048");
+    const testSetRef = await api.getTestSetRef(selectedTestSet);
     if (testSetRef) {
       testCaseRef = await api.getTestCaseRef(testSetRef);
       const testCases = await api.getTestCases(testCaseRef);
@@ -171,7 +205,10 @@ function App() {
         </>
       ) : (
         <div className="fill">
-          <Landing />
+          <Landing 
+            initialTestSet={selectedTestSet}
+            onUpdateTestSet={onUpdateTestSet} // Pass the function as a prop
+          />
           <div className="dashboard-area">
             <DashBoard
               testCases={testCases}

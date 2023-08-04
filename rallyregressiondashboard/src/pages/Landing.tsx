@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import Typewriter from "../components/typewriter/TypeWriter";
 
 
-const Landing = () => {
-  const [testSet, settestSet] = useState("");
+const Landing = ({ initialTestSet, onUpdateTestSet }: any) => {
+  const [testSet, settestSet] = useState(initialTestSet); // Use initial value
+
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
@@ -14,6 +15,7 @@ const Landing = () => {
     console.log(offset);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  
   const str = [
     `Enter A Test Set.....`,
     `Explore.....`,
@@ -27,9 +29,15 @@ const Landing = () => {
         type="text"
         value={testSet}
         style={{ fontWeight: "100!important" }}
-        onChange={(e) => settestSet(e.target.value.toUpperCase())}
+        onChange={(e) =>{
+          const newValue = e.target.value.toUpperCase();
+          settestSet(newValue);
+        }}
         placeholder="Test Set Name..."
       />
+      <button id="videoButton" onClick={()=> {onUpdateTestSet(testSet)}}>
+                View Video
+              </button>
     
     </div>
   );
