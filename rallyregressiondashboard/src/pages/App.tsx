@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "../css/App.css";
 import RallyApi from "../rest-service/rally-api";
@@ -29,7 +29,7 @@ function App() {
   let testCaseRef: string;
   const onUpdateTestSet = (newValue: any) => {
     setSelectedTestSet(newValue);
-    updateTestSet(newValue); 
+    updateTestSet(newValue);
   };
 
   const updateTestSet = async (newValue: any) => {
@@ -46,24 +46,20 @@ function App() {
       setTestCases(parsedTestCases);
       setOriginalTestCases(parsedTestCases);
       setFetchedData(true);
+      scrollToBottom();
       setPieData(pie);
       setPieData2(pieCheck);
       setFetchedUpdateData(false);
     } else {
       console.log("bad test set");
     }
-
   };
-
-  
 
   const [pieData, setPieData] = useState<any>("");
   const [pieData2, setPieData2] = useState<any>("");
   const [FilterType, setFilterType] = useState("filter");
   const [PieType, setPieType] = useState("check");
   const fetchData = async () => {
-  
-
     if (
       !window.location.href
         .toString()
@@ -73,23 +69,24 @@ function App() {
         window.location.href.toString() +
         `?apiKey=${process.env.REACT_APP_APIKEY}`;
     }
-    const api = new RallyApi();
-    const testSetRef = await api.getTestSetRef(selectedTestSet);
-    if (testSetRef) {
-      testCaseRef = await api.getTestCaseRef(testSetRef);
-      const testCases = await api.getTestCases(testCaseRef);
-      setImbalanceTestCases(testCases);
-      setFlakyFlipsTestCases(testCases);
-      const parsedTestCases = await parseTestCase(testCases);
-      const { pie, pieCheck } = await createPieData(parsedTestCases);
-      setTestCases(parsedTestCases);
-      setOriginalTestCases(parsedTestCases);
-      setFetchedData(true);
-      setPieData(pie);
-      setPieData2(pieCheck);
-    } else {
-      console.log("bad test set");
-    }
+    setFetchedData(true);
+    // const api = new RallyApi();
+    // const testSetRef = await api.getTestSetRef(selectedTestSet);
+    // if (testSetRef) {
+    //   testCaseRef = await api.getTestCaseRef(testSetRef);
+    //   const testCases = await api.getTestCases(testCaseRef);
+    //   setImbalanceTestCases(testCases);
+    //   setFlakyFlipsTestCases(testCases);
+    //   const parsedTestCases = await parseTestCase(testCases);
+    //   const { pie, pieCheck } = await createPieData(parsedTestCases);
+    //   setTestCases(parsedTestCases);
+    //   setOriginalTestCases(parsedTestCases);
+
+    //   setPieData(pie);
+    //   setPieData2(pieCheck);
+    // } else {
+    //   console.log("bad test set");
+    // }
   };
   if (fetchedData === false) {
     fetchData();
@@ -193,20 +190,57 @@ function App() {
       setTestCases(temp);
     }
   };
-  const rallyAuth = () => {};
+  const [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setOffset(window.scrollY);
+    window.removeEventListener("scroll", onScroll);
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    if (offset) return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const easeInOutQuad = (t: number) => {
+    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  };
+
+  const scrollToBottom = () => {
+    const windowHeight = window.innerHeight;
+    const scrollTo = offset + windowHeight;
+
+    const scrollStep = 10; // Adjust this value to control the scrolling speed
+    const duration = 500; // Duration in milliseconds
+
+    const scrollAnimation = (startTime: number) => {
+      const currentTime = Date.now() - startTime;
+      if (currentTime < duration) {
+        const progress = currentTime / duration;
+        const step = easeInOutQuad(progress) * scrollStep;
+        window.scrollBy(0, step);
+        requestAnimationFrame((timestamp) => scrollAnimation(startTime));
+      } else {
+        window.scrollTo(0, scrollTo);
+      }
+    };
+
+    requestAnimationFrame((timestamp) => scrollAnimation(timestamp));
+  };
   return (
     <div className={fetchedData === false ? `hidden` : ""}>
-      {fetchedData === false ? (
+      {/* {fetchedData === false ? (
         <>
           <LoadingAnimation />
           <div className="sec"></div>
         </>
-      ) : (
-        <div className="fill">
-          <Landing 
-            initialTestSet={selectedTestSet}
-            onUpdateTestSet={onUpdateTestSet} // Pass the function as a prop
-          />
+      ) : ( */}
+      <div className="fill">
+        <Landing
+        fetchedUpdateData={fetchedUpdateData}
+          initialTestSet={selectedTestSet}
+          testCases={testCases}
+          onUpdateTestSet={onUpdateTestSet} // Pass the function as a prop
+        />
+        {testCases.length > 0 && (
           <div className="dashboard-area">
             <DashBoard
               testCases={testCases}
@@ -227,15 +261,18 @@ function App() {
               VerdictCheck={VerdictCheck}
               filterFlakyFlips={filterFlakyFlips}></FilterArea>
           </div>
-          {resultData.build !== undefined ? (
-            <LastResult result={resultData} />
-          ) : (
+        )}
+        {resultData.build !== undefined ? (
+          <LastResult result={resultData} />
+        ) : (
+          testCases.length > 0 && (
             <div className="full">
               <br></br>
             </div>
-          )}
-        </div>
-      )}
+          )
+        )}
+      </div>
+      {/* )} */}
     </div>
   );
 }

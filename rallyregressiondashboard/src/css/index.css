@@ -581,7 +581,7 @@ label:hover {
 
 .not-there {
   pointer-events: none;
-  
+
 }
 
 #videoButton {
@@ -614,10 +614,15 @@ label:hover {
   right: 62vh;
   padding: 15px;
   border: solid black;
+  transition: 0.7s;
+
   border-width: 0 5px 5px 0;
+  cursor: pointer;
   display: inline-block;
   transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
+  border-radius: 5px;
+
+
 }
 
 #testButton:hover {
@@ -625,6 +630,27 @@ label:hover {
   border-width: 0 3px 3px 0;
 }
 
+.spin {
+  animation: spin infinite 2s forwards;
+  border: solid #f5f5f5 !important;
+  border-width: 0 3px 3px 0 !important;
+}
+
+@keyframes spin {
+  from {
+    bottom: 40vh !important;
+    right: 62vh !important;
+    transform: rotate(-45deg) !important;
+
+  }
+
+  to {
+    bottom: 40vh !important;
+    right: 62vh !important;
+    transform: rotate(360deg) !important;
+
+  }
+}
 
 .media-box {
   position: absolute;
