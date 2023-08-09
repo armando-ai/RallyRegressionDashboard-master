@@ -37,41 +37,56 @@ const FilterArea = (props: any) => {
             ? "animate__animated animate__backOutLeft"
             : "animate__animated animate__backInLeft"
         } contentTopLeft`}>
-        <div
-          className={`${
-            props.PieType !== "check"
-              ? "animate__animated animate__rotateOut not-there"
-              : "animate__animated animate__rotateIn"
-          } contentTopLeft`}>
-          <PieKey2
-            data={props.pieData2}
 
+        <div>
+          <div className={`${
+              props.PieType !== "check"
+                ? "animate__animated animate__backOutRight not-there"
+                : "animate__animated animate__backInRight"
+            } contentTopLeft`}>
+            <PieKey2
+              data={props.pieData2}
+
+              setVerdictCheck={props.setVerdictCheck}
+              VerdictCheck={props.VerdictCheck}
+            ></PieKey2>
+          </div>
+          <div className={`${
+              props.PieType !== "check"
+                ? "animate__animated animate__rotateOut not-there"
+                : "animate__animated animate__rotateIn"
+            } contentTopLeft`}>
+            <VCheckPie
+              data={props.pieData2}
+          
             setVerdictCheck={props.setVerdictCheck}
             VerdictCheck={props.VerdictCheck}
-          ></PieKey2>
-          <VCheckPie
-            data={props.pieData2}
-        
-          setVerdictCheck={props.setVerdictCheck}
-          VerdictCheck={props.VerdictCheck}
-          ></VCheckPie>
+            ></VCheckPie>
+          </div>
         </div>
-        <div
-          className={`${
+        <div>
+          <div className={`${
+            props.PieType !== "final"
+            ? "animate__animated animate__backOutRight not-there"
+            : "animate__animated animate__backInRight"
+          } contentTopLeft`}>
+            <PieKey
+              data={props.pieData}
+              Verdict={props.FilterVerdict}
+              setVerdict={props.setVerdict}
+            ></PieKey>
+          </div>
+          <div className={`${
             props.PieType !== "final"
               ? "animate__animated animate__rotateOut not-there"
               : "animate__animated animate__rotateIn"
           } contentTopLeft`}>
-          <PieKey
-            data={props.pieData}
-            Verdict={props.FilterVerdict}
-            setVerdict={props.setVerdict}
-          ></PieKey>
-          <CustomPieChart
-            data={props.pieData}
-            Verdict={props.FilterVerdict}
-            setVerdict={props.setVerdict}>
-          </CustomPieChart>
+            <CustomPieChart
+              data={props.pieData}
+              Verdict={props.FilterVerdict}
+              setVerdict={props.setVerdict}>
+            </CustomPieChart>
+          </div>
         </div>
         <div className="pieTypes">
           <label onClick={() => props.setPieType("check")}>
