@@ -13,6 +13,17 @@
   }
 }
 
+.col-item{
+  position: relative;
+  height: 300px;
+}
+
+.media-box{
+  position: absolute;
+  top: 50px;
+  height: 80%;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
