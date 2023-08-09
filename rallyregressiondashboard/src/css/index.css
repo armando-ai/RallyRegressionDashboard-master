@@ -371,7 +371,7 @@ select {
   width: 45vw;
   position: absolute;
   left: 15%;
-  top: 55.5%;
+  top: 18.5%;
   transform: scale(0.8);
 
 
@@ -405,6 +405,8 @@ select {
   color: #f5f5f5;
   background-color: transparent;
   width: 25vw;
+  position: absolute;
+  top: -10vh;
   text-overflow: balance;
 }
 
