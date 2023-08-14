@@ -538,7 +538,6 @@ select {
   position: absolute;
   width: 100%;
 
-  left: 0;
 }
 
 .pieTypes {
@@ -584,6 +583,20 @@ label:hover {
 .not-there {
   pointer-events: none;
 
+}
+
+.there{
+  position: absolutes;
+  right: 40%;
+  bottom: 20%;
+}
+
+.piesection{
+  width: 554px;
+  height: 300px;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
 }
 
 #videoButton {

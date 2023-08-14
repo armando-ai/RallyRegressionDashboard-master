@@ -38,11 +38,11 @@ const FilterArea = (props: any) => {
             : "animate__animated animate__backInLeft"
         } contentTopLeft`}>
 
-        <div>
+        <div className="piesection">
           <div className={`${
               props.PieType !== "check"
-                ? "animate__animated animate__backOutRight not-there"
-                : "animate__animated animate__backInRight"
+                ? "animate__animated animate__backOutLeft there not-there"
+                : "animate__animated animate__backInLeft there"
             } contentTopLeft`}>
             <PieKey2
               data={props.pieData2}
@@ -64,13 +64,13 @@ const FilterArea = (props: any) => {
             ></VCheckPie>
           </div>
         </div>
-        <div>
+        <div className="piesection">
           <div className={`${
             props.PieType !== "final"
-            ? "animate__animated animate__backOutRight not-there"
-            : "animate__animated animate__backInRight"
+            ? "animate__animated animate__backOutLeft there not-there"
+            : "animate__animated animate__backInLeft there"
           } contentTopLeft`}>
-            <PieKey
+            <PieKey 
               data={props.pieData}
               Verdict={props.FilterVerdict}
               setVerdict={props.setVerdict}

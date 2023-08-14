@@ -52,14 +52,13 @@
 
 
 .custom-pie-chart {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
   position: relative;
   overflow: hidden;
   top: -5vh;
-  cursor: pointer;
-  
+  cursor: pointer;  
 }
 
 .fill {
@@ -99,7 +98,6 @@
 .boxbox{
   display: flex;
   align-items: center;
-
 }
 
 /* Add other styles as needed for better presentation */
