@@ -2,11 +2,11 @@ const PieKey2 = (props: any) => {
     const datas = [
         { label: "Pass", value: props.data.pass, color: "#34b233" },
         { label: "Fail", value: props.data.fail, color: "#D70040" },
-        { label: "Fixed", value: props.data.fixed, color: "#836953" },
+        { label: "Fixed", value: props.data.fixed, color: "#33FFC4" },
         {
           label: "Intermittent Failure",
           value: props.data.intermittentFailure,
-          color: "#33FFC4",
+          color: "#836953",
         },
         { label: "Regression", value: props.data.regressions, color: "#A7C7E7" },
         { label: "Flaky", value: props.data.flaky, color: "#fdfd96" },
