@@ -144,15 +144,15 @@ code {
 
   background-color: #000000c3;
 
-  overflow-x: hidden;
+  overflow: hidden;
   display: flex;
-
+  height: 44vh;
 
   font-size: medium;
   display: flex;
   flex-direction: column;
 
-  padding: 25px;
+  padding: 27px;
 }
 
 .col-item p {
@@ -370,8 +370,8 @@ select {
 
   width: 45vw;
   position: absolute;
-  left: 15%;
-  top: 18.5%;
+  left: 18%;
+  top: 15%;
   transform: scale(0.8);
 
 
@@ -538,7 +538,6 @@ select {
   position: absolute;
   width: 100%;
 
-  left: 0;
 }
 
 .pieTypes {
@@ -584,6 +583,20 @@ label:hover {
 .not-there {
   pointer-events: none;
 
+}
+
+.there{
+  position: absolutes;
+  right: 40%;
+  bottom: 20%;
+}
+
+.piesection{
+  width: 554px;
+  height: 300px;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
 }
 
 #videoButton {
@@ -661,6 +674,7 @@ label:hover {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  top:40px;
   height: 40%;
   width: 30%;
 }
