@@ -2,7 +2,7 @@ const PieKey2 = (props: any) => {
     const datas = [
         { label: "Pass", value: props.data.pass, color: "#34b233" },
         { label: "Fail", value: props.data.fail, color: "#D70040" },
-        { label: "Fixed", value: props.data.fixed, color: "#836953" },
+        { label: "Fixed", value: props.data.fixed, color: "#33FFC4" },
         {
           label: "Intermittent Failure",
           value: props.data.intermittentFailure,
@@ -21,7 +21,7 @@ const PieKey2 = (props: any) => {
                 <div className="keyBox" style={{backgroundColor:item.color}}>
                     
                 </div>
-                <text style={{color:"white"}}>{item.label}'s {item.value}</text>
+                <text style={{color:"white"}}>{item.label}: {item.value}</text>
                 </div>
 
             )

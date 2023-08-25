@@ -1,6 +1,8 @@
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const cors = require("cors");
+const dotenv = require("dotenv");
+dotenv.config();
 const app = express();
 
 const target = "https://rally1.rallydev.com/slm/attachment/"; // Replace with your API server URL
@@ -10,8 +12,8 @@ const apiProxy = createProxyMiddleware({
   target,
   changeOrigin: true,
   headers: {
-    ZSESSIONID: "_mBjQTpeTSKmDxHFHT8r2eelqB6MMOkiLgXSSeac5fY",
-    WorkspaceId: "90129908344",
+    ZSESSIONID: `${process.env.REACT_APP_ZSESSIONID}`,
+    WorkspaceId: `${process.env.REACT_APP_WORKSPACEID}`,
   },
   // Optionally, you can add additional configuration options here
 });
