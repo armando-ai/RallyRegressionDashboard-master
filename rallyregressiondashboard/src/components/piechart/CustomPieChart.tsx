@@ -32,6 +32,7 @@ const CustomPieChart = (props: any) => {
             border: "1px solid black",
             background: item.color
           }
+        const percent = Math.round((item.value/totalValue)*100)
         const sliceAngle = (item.value / totalValue) * 360;
         const endAngle = startAngle + sliceAngle;
         const largeArcFlag = sliceAngle > 180 ? 1 : 0;
@@ -67,7 +68,7 @@ const CustomPieChart = (props: any) => {
               fill="#000000"
               pointerEvents="none" // Prevent text from blocking click events
             >
-              {item.label}
+              {percent}%
             </text>
           </g>
         );
