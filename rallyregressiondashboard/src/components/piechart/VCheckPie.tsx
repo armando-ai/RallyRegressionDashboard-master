@@ -30,6 +30,7 @@ const VCheckPie = (props: any) => {
       viewBox="0 0 100 100"
       xmlns="http://www.w3.org/2000/svg">
       {data.map((item) => {
+        const percent = (item.value/totalValue)*100
         const sliceAngle = (item.value / totalValue) * 360;
         const endAngle = startAngle + sliceAngle;
         const largeArcFlag = sliceAngle > 180 ? 1 : 0;
@@ -71,7 +72,7 @@ const VCheckPie = (props: any) => {
                 fill="#f5f5f5"
                 pointerEvents="none" // Prevent text from blocking click events
                 transform={`rotate(${rotationAngle}, ${labelX}, ${labelY})`}>
-                {item.label}
+                {percent}%
               </text>
             )}
           </g>

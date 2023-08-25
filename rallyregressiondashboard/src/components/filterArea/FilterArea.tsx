@@ -63,8 +63,6 @@ const FilterArea = (props: any) => {
             VerdictCheck={props.VerdictCheck}
             ></VCheckPie>
           </div>
-        </div>
-        <div className="piesection">
           <div className={`${
             props.PieType !== "final"
             ? "animate__animated animate__backOutLeft there not-there"
